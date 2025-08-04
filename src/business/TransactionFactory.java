@@ -1,5 +1,8 @@
 package business;
 
+import business.entity.HouseTransaction;
+import business.entity.LandTransaction;
+import business.entity.Transaction;
 import persistence.TransactionDTO;
 
 public class TransactionFactory {

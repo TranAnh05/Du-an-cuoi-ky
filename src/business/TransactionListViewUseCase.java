@@ -1,6 +1,9 @@
 package business;
 
 import java.util.List;
+
+import business.entity.Transaction;
+
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;

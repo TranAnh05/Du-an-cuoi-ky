@@ -5,7 +5,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
-import business.Transaction;
+import business.entity.Transaction;
 import business.TransactionListViewUseCase;
 import business.TransactionViewDTO;
 
