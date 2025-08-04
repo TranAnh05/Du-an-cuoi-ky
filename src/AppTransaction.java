@@ -8,6 +8,7 @@ import presentation.TransactionListViewUI;
 import presentation.TransactionViewModel;
 
 public class AppTransaction {
+    //hàm chạy chương trình
     public static void main(String[] args) {
         TransactionViewModel model = new TransactionViewModel();
         TransactionListViewController controller = null;
