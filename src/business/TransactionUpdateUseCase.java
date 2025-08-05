@@ -1,29 +1,28 @@
 package business;
 
 import java.text.DecimalFormat;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.sql.SQLException;
 import persistence.TransactionListViewDAO;
 import persistence.TransactionDTO;
 import presentation.Publisher;
 
-public class TransactionListViewUseCase extends Publisher {
-    private TransactionListViewDAO listViewDAO;
-    private TransactionFactory factory;
+public class TransactionUpdateUseCase extends Publisher {
+    private TransactionListViewDAO dao;
 
-    public TransactionListViewUseCase(TransactionListViewDAO listViewDAO, TransactionFactory factory) {
-        this.listViewDAO = listViewDAO;
-        this.factory = factory;
+    public TransactionUpdateUseCase(TransactionListViewDAO dao) {
+        this.dao = dao;
     }
 
-    public List<TransactionViewItem> execute() throws SQLException {
-        List<TransactionDTO> listDTO = listViewDAO.getAll();
-        List<TransactionViewItem> result = convertToTransactionViewItem(listDTO);
+    public void updateTransaction(String transactionId, TransactionDTO updatedDto) throws SQLException {
+        updatedDto.transactionId = transactionId;
+        dao.updateTransaction(updatedDto);
+        List<TransactionDTO> updatedList = dao.getAll();
+        List<TransactionViewItem> result = convertToTransactionViewItem(updatedList);
         TransactionViewModel model = new TransactionViewModel();
         model.transactionList = result;
         notifySubscribers(model);
-        return result;
     }
 
     private List<TransactionViewItem> convertToTransactionViewItem(List<TransactionDTO> listDTO) {
@@ -31,7 +30,7 @@ public class TransactionListViewUseCase extends Publisher {
         int stt = 1;
         DecimalFormat df = new DecimalFormat("#,###.##");
         for (TransactionDTO dto : listDTO) {
-            Transaction transaction = factory.createTransaction(dto);
+            Transaction transaction = TransactionFactory.createTransaction(dto);
             TransactionViewItem item = new TransactionViewItem();
             item.stt = stt++;
             item.transactionId = transaction.getTransactionId();
