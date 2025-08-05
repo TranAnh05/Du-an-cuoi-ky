@@ -4,9 +4,15 @@ import java.text.DecimalFormat;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import business.entity.HouseTransaction;
+import business.entity.LandTransaction;
+import business.entity.Transaction;
 import persistence.TransactionListViewDAO;
 import persistence.TransactionDTO;
 import presentation.Publisher;
+import presentation.TransactionViewItem;
+import presentation.TransactionViewModel;
 
 public class TransactionUpdateUseCase extends Publisher {
     private TransactionListViewDAO dao;

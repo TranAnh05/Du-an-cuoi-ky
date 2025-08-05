@@ -4,9 +4,13 @@ import java.text.DecimalFormat;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import business.entity.Transaction;
 import persistence.TransactionListViewDAO;
 import persistence.TransactionDTO;
 import presentation.Publisher;
+import presentation.TransactionViewItem;
+import presentation.TransactionViewModel;
 
 public class TransactionSearchUseCase extends Publisher {
     private TransactionListViewDAO dao;

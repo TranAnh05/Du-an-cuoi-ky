@@ -16,7 +16,17 @@ public class Publisher {
 
     public void notifySubscribers(Object data) {
         for (Subscriber subscriber : subscribers) {
-            subscriber.update(data);
+            subscriber.updateData(data);
         }
     }
+
+    public void notifySubscribers() {
+		 
+		 for (Subscriber subscriber : subscribers) {
+			 
+			 subscriber.update();
+			
+		}
+		 
+	 }
 }

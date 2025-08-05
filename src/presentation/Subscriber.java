@@ -1,5 +1,7 @@
 package presentation;
 
 public interface Subscriber {
-    void update(Object data);
+    void updateData(Object data);
+
+    void update();
 }

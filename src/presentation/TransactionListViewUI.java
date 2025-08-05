@@ -3,9 +3,8 @@ package presentation;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.util.List;
-import business.TransactionViewItem;
-import business.TransactionViewModel;
 import java.awt.*;
+import java.text.ParseException;
 
 public class TransactionListViewUI extends JFrame implements Subscriber {
     private JTextField txtSearch;
@@ -25,14 +24,28 @@ public class TransactionListViewUI extends JFrame implements Subscriber {
 
         JPanel topPanel = new JPanel(new BorderLayout(5, 5));
         txtSearch = new JTextField(20);
-        txtSearch.addActionListener(e -> controller.searchTransaction(txtSearch.getText()));
+        txtSearch.addActionListener(e -> {
+            try {
+                controller.searchTransaction(txtSearch.getText());
+            } catch (ParseException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+        });
 
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         btnAdd = new JButton("Thêm");
         btnEdit = new JButton("Sửa");
         btnDelete = new JButton("Xóa");
         btnSearch = new JButton("Tìm kiếm");
-        btnSearch.addActionListener(e -> controller.searchTransaction(txtSearch.getText()));
+        btnSearch.addActionListener(e -> {
+            try {
+                controller.searchTransaction(txtSearch.getText());
+            } catch (ParseException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+        });
         btnEdit.addActionListener(e -> controller.editTransaction(table.getSelectedRow()));
         buttonPanel.add(btnAdd);
         buttonPanel.add(btnEdit);
@@ -43,7 +56,8 @@ public class TransactionListViewUI extends JFrame implements Subscriber {
         topPanel.add(buttonPanel, BorderLayout.EAST);
         add(topPanel, BorderLayout.NORTH);
 
-        String[] cols = { "STT", "Mã GD", "Ngày giao dịch", "Loại giao dịch", "Đơn giá", "Diện tích", "Thành tiền", "Loại đất", "Loại nhà", "Địa chỉ" };
+        String[] cols = { "STT", "Mã GD", "Ngày giao dịch", "Loại giao dịch", "Đơn giá", "Diện tích", "Thành tiền",
+                "Loại đất", "Loại nhà", "Địa chỉ" };
         model = new DefaultTableModel(cols, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -63,16 +77,16 @@ public class TransactionListViewUI extends JFrame implements Subscriber {
         if (transactionViewModel != null && transactionViewModel.transactionList != null) {
             for (TransactionViewItem item : transactionViewModel.transactionList) {
                 Object[] row = {
-                    item.stt,
-                    item.transactionId,
-                    item.transactionDate,
-                    item.transactionType,
-                    item.unitPrice,
-                    item.area,
-                    item.amountTotal,
-                    item.landType != null ? item.landType : "",
-                    item.houseType != null ? item.houseType : "",
-                    item.address != null ? item.address : ""
+                        item.stt,
+                        item.transactionId,
+                        item.transactionDate,
+                        item.transactionType,
+                        item.unitPrice,
+                        item.area,
+                        item.amountTotal,
+                        item.landType != null ? item.landType : "",
+                        item.houseType != null ? item.houseType : "",
+                        item.address != null ? item.address : ""
                 };
                 model.addRow(row);
             }
@@ -84,9 +98,15 @@ public class TransactionListViewUI extends JFrame implements Subscriber {
     }
 
     @Override
-    public void update(Object data) {
+    public void updateData(Object data) {
         if (data instanceof TransactionViewModel) {
             showList((TransactionViewModel) data);
         }
+    }
+
+    @Override
+    public void update() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'update'");
     }
 }

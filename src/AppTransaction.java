@@ -2,6 +2,7 @@ import business.*;
 import persistence.*;
 import presentation.TransactionListViewController;
 import presentation.TransactionListViewUI;
+import presentation.TransactionViewModel;
 
 public class AppTransaction {
     public static void main(String[] args) {
@@ -12,12 +13,13 @@ public class AppTransaction {
         TransactionSearchUseCase searchUseCase = null;
         TransactionUpdateUseCase updateUseCase = null;
         try {
-            DBConnection dbConn = new DBConnection();
-            TransactionListViewDAO listDao = new TransactionListViewDAO(dbConn.getConnection());
+            // DBConnection dbConn = new DBConnection();
+            TransactionListViewDAO transactionListViewDAO = new TransactionListViewDAO();
+            // TransactionListViewDAO listDao = new TransactionListViewDAO(dbConn.getConnection());
             TransactionFactory factory = new TransactionFactory();
-            listViewUseCase = new TransactionListViewUseCase(listDao, factory);
-            searchUseCase = new TransactionSearchUseCase(listDao, factory);
-            updateUseCase = new TransactionUpdateUseCase(listDao);
+            listViewUseCase = new TransactionListViewUseCase(transactionListViewDAO, factory);
+            searchUseCase = new TransactionSearchUseCase(transactionListViewDAO, factory);
+            updateUseCase = new TransactionUpdateUseCase(transactionListViewDAO);
             controller = new TransactionListViewController(view, model, listViewUseCase, searchUseCase, updateUseCase);
 
             controller.execute();
