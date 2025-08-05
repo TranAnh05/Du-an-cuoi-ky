@@ -47,7 +47,7 @@ public class TransactionListViewDAO implements TransactionGateway{
 
             list.add(dto);
         }
-		conn.close();
+		// conn.close();
 		stmt.close();
 		rs.close();
 
