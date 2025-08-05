@@ -1,5 +1,14 @@
-import business.*;
-import persistence.*;
+
+import java.sql.SQLException;
+import java.text.ParseException;
+
+import business.TransactionAverageUsecase;
+import business.TransactionFactory;
+import business.TransactionListViewUseCase;
+import business.TransactionSearchUseCase;
+import business.TransactionUpdateUseCase;
+import persistence.TransactionListViewDAO;
+import presentation.TransactionAverageUI;
 import presentation.TransactionListViewController;
 import presentation.TransactionListViewUI;
 import presentation.TransactionViewModel;
@@ -7,12 +16,15 @@ import presentation.TransactionViewModel;
 public class AppTransaction {
     public static void main(String[] args) {
         TransactionListViewUI view = new TransactionListViewUI();
+
         TransactionViewModel model = new TransactionViewModel();
         TransactionListViewController controller = null;
         TransactionListViewUseCase listViewUseCase = null;
         TransactionSearchUseCase searchUseCase = null;
         TransactionUpdateUseCase updateUseCase = null;
         view.setViewModel(model);
+        // average
+        TransactionAverageUsecase averageUsecase = null;
         try {
             // DBConnection dbConn = new DBConnection();
             TransactionListViewDAO transactionListViewDAO = new TransactionListViewDAO();
@@ -26,7 +38,14 @@ public class AppTransaction {
 
             controller.execute();
             view.setVisible(true);
-        } catch (Exception e) {
+
+            // average
+            averageUsecase = new TransactionAverageUsecase(transactionListViewDAO);
+            TransactionAverageUI averageUI = new TransactionAverageUI(view, averageUsecase);
+            averageUI.execute();
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
             e.printStackTrace();
         }
     }

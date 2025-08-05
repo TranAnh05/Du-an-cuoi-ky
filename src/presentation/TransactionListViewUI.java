@@ -2,6 +2,7 @@ package presentation;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import business.TransactionAverageUsecase;
 import java.awt.*;
 import java.text.ParseException;
 
@@ -88,12 +89,23 @@ public class TransactionListViewUI extends JFrame implements Subscriber {
         add(new JScrollPane(table), BorderLayout.CENTER);
     }
 
+    // private void makeBtnAverageWork(JButton btnAverage) {
+    //     btnAverage.addActionListener(e -> {
+            
+    //     });
+    // }
+
+    public JButton getBtnAverage() {return btnAverage;}
+
     public void setViewModel(TransactionViewModel viewModel) {
         this.viewModel = viewModel;
         viewModel.addSubscriber(this);
     }
 
+
+
     public void showList(TransactionViewModel transactionViewModel) {
+
         model.setRowCount(0);
             for (TransactionViewItem item : transactionViewModel.transactionList) {
                 Object[] row = {

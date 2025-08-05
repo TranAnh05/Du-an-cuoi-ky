@@ -40,8 +40,8 @@ public class TransactionSearchUseCase extends Publisher {
             item.stt = stt++;
             item.transactionId = dto.transactionId;
             item.transactionDate = dto.transactionDate.toString();
-            item.unitPrice = df.format(dto.unitPrice != null ? dto.unitPrice : 0);
-            item.area = df.format(dto.area != null ? dto.area : 0);
+            item.unitPrice = df.format(dto.unitPrice);
+            item.area = df.format(dto.area);
             item.transactionType = dto.transactionType;
             item.landType = dto.landType != null ? dto.landType : "";
             item.houseType = dto.houseType != null ? dto.houseType : "";
