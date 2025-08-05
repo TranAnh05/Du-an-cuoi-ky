@@ -1,6 +1,8 @@
 package presentation;
 
 import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +36,7 @@ public class TransactionListViewController {
         int stt = 1;
         for(TransactionViewDTO dto : listDTO) {
             TransactionViewItem item = new TransactionViewItem();
+            NumberFormat amountFormatter = new DecimalFormat("#,##0.###");
 
             item.stt = stt++;
             item.transactionId = dto.transactionId;
@@ -41,7 +44,7 @@ public class TransactionListViewController {
             item.unitPrice = String.valueOf(dto.unitPrice);
             item.area = String.valueOf(dto.area);
             item.transactionType = dto.transactionType;
-            item.amountTotal = String.valueOf(dto.amountTotal);
+            item.amountTotal = amountFormatter.format(dto.amountTotal);
             listItem.add(item);
         }
 
