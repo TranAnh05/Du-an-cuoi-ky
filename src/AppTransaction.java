@@ -12,11 +12,13 @@ public class AppTransaction {
         TransactionListViewUseCase listViewUseCase = null;
         TransactionSearchUseCase searchUseCase = null;
         TransactionUpdateUseCase updateUseCase = null;
+        view.setViewModel(model);
         try {
             // DBConnection dbConn = new DBConnection();
             TransactionListViewDAO transactionListViewDAO = new TransactionListViewDAO();
             // TransactionListViewDAO listDao = new TransactionListViewDAO(dbConn.getConnection());
             TransactionFactory factory = new TransactionFactory();
+            // listViewUseCase = new TransactionListViewUseCase(transactionListViewDAO);
             listViewUseCase = new TransactionListViewUseCase(transactionListViewDAO, factory);
             searchUseCase = new TransactionSearchUseCase(transactionListViewDAO, factory);
             updateUseCase = new TransactionUpdateUseCase(transactionListViewDAO);

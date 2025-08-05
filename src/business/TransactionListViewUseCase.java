@@ -28,7 +28,7 @@ public class TransactionListViewUseCase extends Publisher {
     public TransactionListViewUseCase(TransactionListViewDAO listViewDAO, TransactionFactory factory) {
         this.listViewDAO = listViewDAO;
         this.factory = factory;
- this.DAOGateway = listViewDAO;
+        this.DAOGateway = listViewDAO;
     }
 
     public List<TransactionViewItem> executeQuery() throws SQLException {
@@ -40,10 +40,10 @@ public class TransactionListViewUseCase extends Publisher {
         return result;
     }
 
-    public List<TransactionViewDTO> execute() throws SQLException, ParseException{
+    public List<TransactionViewDTO> execute() throws SQLException, ParseException {
         List<TransactionDTO> listDTO = null;
-        List<Transaction> transactions  = null;
-        
+        List<Transaction> transactions = null;
+
         listDTO = DAOGateway.getAll();
 
         transactions = convertToBusinessObjects(listDTO);
