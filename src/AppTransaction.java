@@ -1,8 +1,12 @@
+
 import java.sql.SQLException;
 import java.text.ParseException;
 
 import business.TransactionAverageUsecase;
+import business.TransactionFactory;
 import business.TransactionListViewUseCase;
+import business.TransactionSearchUseCase;
+import business.TransactionUpdateUseCase;
 import persistence.TransactionListViewDAO;
 import presentation.TransactionAverageUI;
 import presentation.TransactionListViewController;
@@ -11,20 +15,26 @@ import presentation.TransactionViewModel;
 
 public class AppTransaction {
     public static void main(String[] args) {
-        // list view
+        TransactionListViewUI view = new TransactionListViewUI();
+
         TransactionViewModel model = new TransactionViewModel();
         TransactionListViewController controller = null;
         TransactionListViewUseCase listViewUseCase = null;
-        TransactionListViewUI view = new TransactionListViewUI();
+        TransactionSearchUseCase searchUseCase = null;
+        TransactionUpdateUseCase updateUseCase = null;
         view.setViewModel(model);
-
         // average
         TransactionAverageUsecase averageUsecase = null;
-
         try {
+            // DBConnection dbConn = new DBConnection();
             TransactionListViewDAO transactionListViewDAO = new TransactionListViewDAO();
-            listViewUseCase = new TransactionListViewUseCase(transactionListViewDAO);
-            controller = new TransactionListViewController(model, listViewUseCase);
+            // TransactionListViewDAO listDao = new TransactionListViewDAO(dbConn.getConnection());
+            TransactionFactory factory = new TransactionFactory();
+            // listViewUseCase = new TransactionListViewUseCase(transactionListViewDAO);
+            listViewUseCase = new TransactionListViewUseCase(transactionListViewDAO, factory);
+            searchUseCase = new TransactionSearchUseCase(transactionListViewDAO, factory);
+            updateUseCase = new TransactionUpdateUseCase(transactionListViewDAO);
+            controller = new TransactionListViewController(view, model, listViewUseCase, searchUseCase, updateUseCase);
 
             controller.execute();
             view.setVisible(true);
