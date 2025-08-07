@@ -2,13 +2,17 @@
 import java.sql.SQLException;
 import java.text.ParseException;
 
+import business.TotalTransactionUseCase;
 import business.TransactionAverageUsecase;
 import business.TransactionFactory;
 import business.TransactionListViewUseCase;
 import business.TransactionMonthUseCase;
 import business.TransactionSearchUseCase;
 import business.TransactionUpdateUseCase;
+import persistence.TotalTransactionDAO;
 import persistence.TransactionListViewDAO;
+import presentation.TotalTransactionViewController;
+import presentation.TotalTransactionViewUI;
 import presentation.TransactionAverageUI;
 import presentation.TransactionListViewController;
 import presentation.TransactionListViewUI;
@@ -30,6 +34,9 @@ public class AppTransaction {
 
         // relative to get month
         TransactionMonthUseCase monthUsecase = null;
+
+        //Total
+        TotalTransactionUseCase totalUseCase = null;
 
         try {
             // DBConnection dbConn = new DBConnection();
@@ -56,6 +63,13 @@ public class AppTransaction {
             monthUsecase = new TransactionMonthUseCase(transactionListViewDAO);
             TransactionMonthUI monthUI = new TransactionMonthUI(view, monthUsecase);
             monthUI.execute();
+
+            //Total
+            totalUseCase = new TotalTransactionUseCase(new TotalTransactionDAO());
+            TransactionViewModel totalModel = new TransactionViewModel();
+            TotalTransactionViewUI totalView = new TotalTransactionViewUI();
+            TotalTransactionViewController totalController = new TotalTransactionViewController(totalView, totalModel, totalUseCase);
+            view.setTotalTransactionView(totalView, totalController);
             
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
