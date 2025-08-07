@@ -97,6 +97,8 @@ public class TransactionListViewUI extends JFrame implements Subscriber {
 
     public JButton getBtnAverage() {return btnAverage;}
 
+    public JButton getBtnMonth() {return btnMonth;}
+
     public void setViewModel(TransactionViewModel viewModel) {
         this.viewModel = viewModel;
         viewModel.addSubscriber(this);
