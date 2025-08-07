@@ -2,7 +2,8 @@ package business;
 
 import java.time.LocalDate;
 
-public class TransactionViewDTO {
+public class TransactionViewDTO 
+{
     public String transactionId;
     public LocalDate transactionDate;
     public double unitPrice;

@@ -6,7 +6,8 @@ import java.awt.*;
 public class TransactionAverageShowUI extends JDialog{
     private JLabel resultLabel;
 
-    public TransactionAverageShowUI(Frame parent, String average) {
+    public TransactionAverageShowUI(Frame parent, String average) 
+    {
         super(parent, "Kết quả trung bình giao dịch", true);
         setLayout(new BorderLayout());
         resultLabel = new JLabel("Trung bình các giao dịch: " + average);
@@ -20,7 +21,5 @@ public class TransactionAverageShowUI extends JDialog{
         setSize(300, 150);
         setLocationRelativeTo(parent);
     }
-
-    
 }
 

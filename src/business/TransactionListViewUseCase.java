@@ -16,12 +16,13 @@ import persistence.TransactionGateway;
 public class TransactionListViewUseCase {
     private TransactionGateway DAOGateway;
 
-    public TransactionListViewUseCase(TransactionGateway DAOGateway) {
-        // super();
+    public TransactionListViewUseCase(TransactionGateway DAOGateway) 
+    {
         this.DAOGateway = DAOGateway;
     }
 
-    public List<TransactionViewDTO> execute() throws SQLException, ParseException{
+    public List<TransactionViewDTO> execute() throws SQLException, ParseException
+    {
         List<TransactionDTO> listDTO = null;
         List<Transaction> transactions  = null;
         
@@ -32,7 +33,8 @@ public class TransactionListViewUseCase {
         return convertToTransactionViewDTO(transactions);
     }
 
-    private List<Transaction> convertToBusinessObjects(List<TransactionDTO> listDTO) {
+    private List<Transaction> convertToBusinessObjects(List<TransactionDTO> listDTO) 
+    {
         List<Transaction> transactions = new ArrayList<>();
 
         for(TransactionDTO dto : listDTO) {
@@ -43,7 +45,8 @@ public class TransactionListViewUseCase {
         return transactions;
     }
 
-    private List<TransactionViewDTO> convertToTransactionViewDTO(List<Transaction> transactions) {
+    private List<TransactionViewDTO> convertToTransactionViewDTO(List<Transaction> transactions) 
+    {
         List<TransactionViewDTO> itemList = new ArrayList<TransactionViewDTO>();
 
         for(Transaction transaction : transactions) {

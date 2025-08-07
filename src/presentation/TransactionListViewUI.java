@@ -3,7 +3,9 @@ package presentation;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
+import business.TotalTransactionUseCase;
 import business.TransactionAverageUsecase;
+import persistence.TotalTransactionDAO;
 
 import java.awt.*;
 public class TransactionListViewUI extends JFrame implements Subscriber{
@@ -17,11 +19,12 @@ public class TransactionListViewUI extends JFrame implements Subscriber{
     private JButton btnMonth;
     private JTable table;
     private DefaultTableModel model;
-
     private TransactionViewModel viewModel;
+    private TotalTransactionViewUI totalTransactionViewUI;
+    private TotalTransactionViewController totalTransactionController;
 
-
-    public TransactionListViewUI() {
+    public TransactionListViewUI() 
+    {
         // --- Cài đặt cho JFrame ---
         super("Quản lý danh sách giao dịch");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -70,6 +73,12 @@ public class TransactionListViewUI extends JFrame implements Subscriber{
         table.setRowHeight(25);
 
         add(new JScrollPane(table), BorderLayout.CENTER);
+
+        //xử lý các sự kiện button 
+        btnTotal.addActionListener(e -> 
+        {
+            totalTransactionViewUI.setVisible(true);
+        });
     }
 
     // private void makeBtnAverageWork(JButton btnAverage) {
@@ -80,16 +89,26 @@ public class TransactionListViewUI extends JFrame implements Subscriber{
 
     public JButton getBtnAverage() {return btnAverage;}
 
-    public void setViewModel(TransactionViewModel viewModel) {
+    public void setViewModel(TransactionViewModel viewModel)
+    {
         this.viewModel = viewModel;
         viewModel.addSubscriber(this);
     }
 
+    public void setTotalTransactionView(TotalTransactionViewUI view, TotalTransactionViewController controller)
+    {
+        this.totalTransactionViewUI = view;
+        this.totalTransactionController = controller;
+        this.totalTransactionViewUI.setController(controller);
+    }
 
-    private void showList(TransactionViewModel transactionViewModel) {
+
+    private void showList(TransactionViewModel transactionViewModel) 
+    {
         model.setRowCount(0);
 
-        for (TransactionViewItem item : transactionViewModel.transactionList) {
+        for (TransactionViewItem item : transactionViewModel.transactionList) 
+        {
             Object[] row = {
                     item.stt,
                     item.transactionId,
@@ -101,9 +120,10 @@ public class TransactionListViewUI extends JFrame implements Subscriber{
             };
             model.addRow(row);
         }
-     }
-
-     public void update() {
+    }
+    @Override
+    public void update() 
+    {
         this.showList(viewModel);
-     }
+    }
 }

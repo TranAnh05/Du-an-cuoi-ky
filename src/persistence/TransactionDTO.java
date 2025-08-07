@@ -2,7 +2,8 @@ package persistence;
 
 import java.time.LocalDate;
 
-public class TransactionDTO {
+public class TransactionDTO 
+{
     public String transactionId;
     public LocalDate transactionDate;
     public double unitPrice;

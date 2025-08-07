@@ -1,6 +1,9 @@
 package presentation;
 
-public class TransactionViewItem {
+import java.time.LocalDate;
+
+public class TransactionViewItem 
+{
     public int stt;
     public String transactionId;
     public String transactionDate;
