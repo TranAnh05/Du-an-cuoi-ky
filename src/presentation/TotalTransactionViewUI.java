@@ -8,7 +8,7 @@ import business.TotalTransactionUseCase;
 import java.awt.*;
 import java.util.Vector;
 
-public class TotalTransactionViewUI extends JFrame 
+public class TotalTransactionViewUI extends JFrame implements Subscriber
 {
     private JRadioButton landButton, houseButton;
     private JTable transactionTable;
@@ -16,6 +16,7 @@ public class TotalTransactionViewUI extends JFrame
     private JTextField totalField;
     private TotalTransactionUseCase totalUseCase;
     private TotalTransactionViewController controller;
+    private TransactionViewModel viewModel;
 
 
     public TotalTransactionViewUI() 
@@ -66,6 +67,11 @@ public class TotalTransactionViewUI extends JFrame
 
     }
     
+    public void setViewModel(TransactionViewModel viewModel)
+    {
+        this.viewModel= viewModel;
+        viewModel.addSubscriber(this);
+    }
     public void ShowTotalList(TransactionViewModel viewModel, int total) 
     {
         model.setRowCount(0); 
@@ -90,5 +96,21 @@ public class TotalTransactionViewUI extends JFrame
         this.controller = controller;
 
     }
+
+    @Override
+    public void updateData(Object data) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'updateData'");
+    }
+
+    @Override
+    public void update() 
+    {
+    if (viewModel != null && viewModel.transactionList != null) 
+    {
+        int totalCount = viewModel.transactionList.size();
+        this.ShowTotalList(viewModel, totalCount);
+    }
+}
 }
 

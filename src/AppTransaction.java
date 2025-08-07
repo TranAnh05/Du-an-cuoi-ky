@@ -68,7 +68,9 @@ public class AppTransaction {
             totalUseCase = new TotalTransactionUseCase(new TotalTransactionDAO());
             TransactionViewModel totalModel = new TransactionViewModel();
             TotalTransactionViewUI totalView = new TotalTransactionViewUI();
-            TotalTransactionViewController totalController = new TotalTransactionViewController(totalView, totalModel, totalUseCase);
+            TotalTransactionViewController totalController = new TotalTransactionViewController(totalModel, totalUseCase);
+            totalView.setViewModel(totalModel); // Đăng ký Subscriber
+            totalView.setController(totalController); // Thiết lập controller
             view.setTotalTransactionView(totalView, totalController);
             
         } catch (ClassNotFoundException | SQLException e) {

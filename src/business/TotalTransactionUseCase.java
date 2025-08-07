@@ -21,18 +21,12 @@ public class TotalTransactionUseCase
         this.totalGateway = totalGateway;
     }
 
-    public List<TransactionViewItem> execute() throws SQLException 
-    {
-        List<TransactionDTO> listDTO = totalGateway.getTransactionsByType(null);
-        List<Transaction> transactions = convertToBusinessObjects(listDTO);
-        return convertToViewItems(transactions);
-    }
-
-    public List<TransactionViewItem> getTransactionsByType(String type) throws SQLException 
+    public List<TransactionViewDTO> getTransactionsByType(String type) throws SQLException 
     {
         List<TransactionDTO> listDTO = totalGateway.getTransactionsByType(type);
+        System.out.println("Số giao dịch trả về: " + listDTO.size());
         List<Transaction> transactions = convertToBusinessObjects(listDTO);
-        return convertToViewItems(transactions);
+        return convertToViewDTO(transactions);
     }
 
     private List<Transaction> convertToBusinessObjects(List<TransactionDTO> listDTO) 
@@ -45,22 +39,18 @@ public class TotalTransactionUseCase
         return transactions;
     }
 
-    private List<TransactionViewItem> convertToViewItems(List<Transaction> transactions) {
-        List<TransactionViewItem> itemList = new ArrayList<>();
-        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        DecimalFormat df = new DecimalFormat("#.00");
-        int stt = 1;
-
+    private List<TransactionViewDTO> convertToViewDTO(List<Transaction> transactions) 
+    {
+        List<TransactionViewDTO> itemList = new ArrayList<TransactionViewDTO>();
         for (Transaction t : transactions) {
-            TransactionViewItem item = new TransactionViewItem();
-            item.stt = stt++;
-            item.transactionId = t.getTransactionId();
-            item.transactionDate = t.getTransactionDate().format(fmt);
-            item.transactionType = t.getTransactionType();
-            item.unitPrice = df.format(t.getUnitPrice());
-            item.area = df.format(t.getArea());
-            item.amountTotal = df.format(t.calculateAmount());
-            itemList.add(item);
+            TransactionViewDTO dto = new TransactionViewDTO();
+            dto.transactionId = t.getTransactionId();
+            dto.transactionDate = t.getTransactionDate();
+            dto.transactionType = t.getTransactionType();
+            dto.unitPrice = t.getUnitPrice();
+            dto.area = t.getArea();
+            dto.amountTotal = t.calculateAmount();
+            itemList.add(dto);
         }
 
         return itemList;
