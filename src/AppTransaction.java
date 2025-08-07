@@ -5,12 +5,14 @@ import java.text.ParseException;
 import business.TransactionAverageUsecase;
 import business.TransactionFactory;
 import business.TransactionListViewUseCase;
+import business.TransactionMonthUseCase;
 import business.TransactionSearchUseCase;
 import business.TransactionUpdateUseCase;
 import persistence.TransactionListViewDAO;
 import presentation.TransactionAverageUI;
 import presentation.TransactionListViewController;
 import presentation.TransactionListViewUI;
+import presentation.TransactionMonthUI;
 import presentation.TransactionViewModel;
 
 public class AppTransaction {
@@ -23,8 +25,12 @@ public class AppTransaction {
         TransactionSearchUseCase searchUseCase = null;
         TransactionUpdateUseCase updateUseCase = null;
         view.setViewModel(model);
-        // average
+        // relative to average
         TransactionAverageUsecase averageUsecase = null;
+
+        // relative to get month
+        TransactionMonthUseCase monthUsecase = null;
+
         try {
             // DBConnection dbConn = new DBConnection();
             TransactionListViewDAO transactionListViewDAO = new TransactionListViewDAO();
@@ -34,15 +40,23 @@ public class AppTransaction {
             listViewUseCase = new TransactionListViewUseCase(transactionListViewDAO, factory);
             searchUseCase = new TransactionSearchUseCase(transactionListViewDAO, factory);
             updateUseCase = new TransactionUpdateUseCase(transactionListViewDAO);
+
             controller = new TransactionListViewController(view, model, listViewUseCase, searchUseCase, updateUseCase);
 
             controller.execute();
             view.setVisible(true);
 
-            // average
+            // relative to average
             averageUsecase = new TransactionAverageUsecase(transactionListViewDAO);
             TransactionAverageUI averageUI = new TransactionAverageUI(view, averageUsecase);
             averageUI.execute();
+
+            
+            // relative to get month
+            monthUsecase = new TransactionMonthUseCase(transactionListViewDAO);
+            TransactionMonthUI monthUI = new TransactionMonthUI(view, monthUsecase);
+            monthUI.execute();
+            
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         } catch (ParseException e) {
