@@ -22,6 +22,9 @@ public class TransactionListViewUI extends JFrame implements Subscriber
     private TotalTransactionViewUI totalTransactionViewUI;
     private TotalTransactionViewController totalTransactionController;
 
+    // relative to month
+    private TransactionMonthSelectUI selectUI;
+
     private TransactionViewModel viewModel;
 
     public TransactionListViewUI() {
@@ -95,6 +98,12 @@ public class TransactionListViewUI extends JFrame implements Subscriber
         {
             totalTransactionViewUI.setVisible(true);
         });
+
+        // relative to month
+        btnMonth.addActionListener(e -> {
+            selectUI.setVisible(true);
+        });
+
     }
 
     // private void makeBtnAverageWork(JButton btnAverage) {
@@ -107,6 +116,11 @@ public class TransactionListViewUI extends JFrame implements Subscriber
 
     public JButton getBtnMonth() {return btnMonth;}
 
+    public void setSelectUI(TransactionMonthSelectUI selectUI) {
+        this.selectUI = selectUI;
+    }
+
+    
     public void setViewModel(TransactionViewModel viewModel) {
         this.viewModel = viewModel;
         viewModel.addSubscriber(this);
@@ -158,4 +172,6 @@ public class TransactionListViewUI extends JFrame implements Subscriber
          this.showList(viewModel);
         
     }
+
+   
 }

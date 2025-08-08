@@ -2,6 +2,7 @@ package presentation;
 
 import javax.swing.*;
 import java.awt.*;
+import java.sql.SQLException;
 
 public class TransactionMonthSelectUI extends JDialog {
     private JComboBox<Integer> monthCombo;
@@ -11,8 +12,12 @@ public class TransactionMonthSelectUI extends JDialog {
     private int selectedMonth = -1;
     private int selectedYear = -1;
 
-    public TransactionMonthSelectUI(Frame parent) {
-        super(parent, "Chọn tháng và năm", true);
+
+    private TransactionMonthController controller;
+
+
+    public TransactionMonthSelectUI() {
+        super((Frame) null, "Chọn tháng và năm", true);
         setLayout(new GridLayout(3, 2, 10, 10));
 
         add(new JLabel("Tháng:"));
@@ -35,6 +40,13 @@ public class TransactionMonthSelectUI extends JDialog {
         btnOk.addActionListener(e -> {
             selectedMonth = (int) monthCombo.getSelectedItem();
             selectedYear = (int) yearCombo.getSelectedItem();
+            try {
+                controller.execute(selectedMonth, selectedYear);
+                TransactionMonthShowUI showUI = new TransactionMonthShowUI();
+                showUI.setVisible(true);
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
             dispose();
         });
 
@@ -43,7 +55,11 @@ public class TransactionMonthSelectUI extends JDialog {
         });
 
         setSize(300, 150);
-        setLocationRelativeTo(parent);
+        setLocationRelativeTo(null);
+    }
+
+    public void setController(TransactionMonthController controller){
+        this.controller = controller;
     }
 
     public int getSelectedMonth() {

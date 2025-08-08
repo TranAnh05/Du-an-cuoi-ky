@@ -72,6 +72,7 @@ public class TotalTransactionViewUI extends JFrame implements Subscriber
         this.viewModel= viewModel;
         viewModel.addSubscriber(this);
     }
+
     public void ShowTotalList(TransactionViewModel viewModel, int total) 
     {
         model.setRowCount(0); 
@@ -106,11 +107,15 @@ public class TotalTransactionViewUI extends JFrame implements Subscriber
     @Override
     public void update() 
     {
-    if (viewModel != null && viewModel.transactionList != null) 
-    {
-        int totalCount = viewModel.transactionList.size();
-        this.ShowTotalList(viewModel, totalCount);
+        if (viewModel != null && viewModel.transactionList != null) 
+        {
+            int totalCount = viewModel.transactionList.size();
+            this.ShowTotalList(viewModel, totalCount);
+        }
     }
-}
+
+    public void updateToShow() {
+        
+    }
 }
 
