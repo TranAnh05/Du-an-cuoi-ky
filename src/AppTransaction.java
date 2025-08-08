@@ -65,7 +65,6 @@ public class AppTransaction {
             averageUsecase = new TransactionAverageUsecase(transactionListViewDAO);
             TransactionAverageUI averageUI = new TransactionAverageUI(view, averageUsecase);
             averageUI.execute();
-
             
             // relative to get month
             monthUsecase = new TransactionMonthUseCase(transactionListViewDAO);
@@ -75,8 +74,6 @@ public class AppTransaction {
             monthController = new TransactionMonthController(monthUsecase, monthModel);
             selectUI.setController(monthController);
             selectUI.setShowMonthUI(showUI);
-            
-            
 
             //Total
             totalUseCase = new TotalTransactionUseCase(new TotalTransactionDAO());
