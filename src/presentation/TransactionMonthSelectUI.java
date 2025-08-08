@@ -3,6 +3,7 @@ package presentation;
 import javax.swing.*;
 import java.awt.*;
 import java.sql.SQLException;
+import java.util.List;
 
 public class TransactionMonthSelectUI extends JDialog {
     private JComboBox<Integer> monthCombo;
@@ -14,6 +15,7 @@ public class TransactionMonthSelectUI extends JDialog {
 
 
     private TransactionMonthController controller;
+    private TransactionMonthShowUI monthShowUI;
 
 
     public TransactionMonthSelectUI() {
@@ -40,10 +42,24 @@ public class TransactionMonthSelectUI extends JDialog {
         btnOk.addActionListener(e -> {
             selectedMonth = (int) monthCombo.getSelectedItem();
             selectedYear = (int) yearCombo.getSelectedItem();
+            if (selectedMonth <= 0 || selectedYear <= 0) {
+                JOptionPane.showMessageDialog(this,
+                    "Không tìm thấy giao dịch nào trong tháng " + selectedMonth + "/" + selectedYear,
+                    "Thông báo",
+                    JOptionPane.INFORMATION_MESSAGE);
+                dispose();
+                return;
+            }
             try {
-                controller.execute(selectedMonth, selectedYear);
-                TransactionMonthShowUI showUI = new TransactionMonthShowUI();
-                showUI.setVisible(true);
+                List<TransactionViewItem> result = controller.execute(selectedMonth, selectedYear);
+                if (result == null || result.isEmpty()) {
+                    JOptionPane.showMessageDialog(this,
+                        "Không tìm thấy giao dịch nào trong tháng " + selectedMonth + "/" + selectedYear,
+                        "Thông báo",
+                        JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                monthShowUI.setVisible(true);
+                }
             } catch (SQLException e1) {
                 e1.printStackTrace();
             }
@@ -60,6 +76,10 @@ public class TransactionMonthSelectUI extends JDialog {
 
     public void setController(TransactionMonthController controller){
         this.controller = controller;
+    }
+
+    public void setShowMonthUI(TransactionMonthShowUI monthShowUI) {
+        this.monthShowUI = monthShowUI;
     }
 
     public int getSelectedMonth() {

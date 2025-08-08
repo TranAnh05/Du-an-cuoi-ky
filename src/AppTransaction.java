@@ -74,6 +74,7 @@ public class AppTransaction {
             showUI.setViewModel(monthModel);
             monthController = new TransactionMonthController(monthUsecase, monthModel);
             selectUI.setController(monthController);
+            selectUI.setShowMonthUI(showUI);
             
             
 
@@ -90,6 +91,6 @@ public class AppTransaction {
             e.printStackTrace();
         } catch (ParseException e) {
             e.printStackTrace();
-        }
+        } 
     }
 }

@@ -32,10 +32,13 @@ public class TransactionMonthShowUI extends JDialog implements Subscriber{
     public void setViewModel(TransactionViewModel viewModel) {
         this.viewModel = viewModel;
         viewModel.addSubscriber(this);
+
     }
 
     private void showMonthList(TransactionViewModel transactionViewModel) {
-        int stt = 1;
+    tableModel.setRowCount(0); 
+    int stt = 1;
+    if (transactionViewModel != null && transactionViewModel.transactionList != null) {
         for (TransactionViewItem item : transactionViewModel.transactionList) {
             tableModel.addRow(new Object[]{
                 stt++,
@@ -48,6 +51,7 @@ public class TransactionMonthShowUI extends JDialog implements Subscriber{
             });
         }
     }
+}
 
     @Override
     public void update() {

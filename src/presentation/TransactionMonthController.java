@@ -20,11 +20,12 @@ public class TransactionMonthController {
         this.model = model;
     }
 
-    public void execute(int month, int year) throws SQLException {
+    public List<TransactionViewItem> execute(int month, int year) throws SQLException {
         List<TransactionViewDTO> listViewDTO = usecase.execute(month, year);
         List<TransactionViewItem> listItems = convertToViewItems(listViewDTO);
         model.transactionList = listItems;
         model.notifySubscribers();
+        return listItems;
     }
 
     // Hàm convert từ TransactionViewDTO sang TransactionViewItem
