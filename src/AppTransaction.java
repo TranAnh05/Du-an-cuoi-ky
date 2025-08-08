@@ -13,7 +13,9 @@ import persistence.TotalTransactionDAO;
 import persistence.TransactionListViewDAO;
 import presentation.TotalTransactionViewController;
 import presentation.TotalTransactionViewUI;
-import presentation.TransactionAverageUI;
+import presentation.TransactionAverageController;
+import presentation.TransactionAverageModel;
+import presentation.TransactionAverageShowUI;
 import presentation.TransactionListViewController;
 import presentation.TransactionListViewUI;
 import presentation.TransactionMonthController;
@@ -26,7 +28,6 @@ public class AppTransaction {
         TransactionListViewUI view = new TransactionListViewUI();
         TransactionMonthSelectUI selectUI = new TransactionMonthSelectUI();
 
-        
 
         TransactionViewModel model = new TransactionViewModel();
         TransactionListViewController controller = null;
@@ -36,8 +37,13 @@ public class AppTransaction {
         view.setViewModel(model);
         // relative to month
         view.setSelectUI(selectUI);
+
         // relative to average
+        TransactionAverageShowUI averageShowUI = new TransactionAverageShowUI();
+        TransactionAverageModel averageModel = new TransactionAverageModel();
+        averageShowUI.setModel(averageModel);
         TransactionAverageUsecase averageUsecase = null;
+        TransactionAverageController averageController = null;
 
         // relative to get month
         TransactionMonthUseCase monthUsecase = null;
@@ -63,10 +69,9 @@ public class AppTransaction {
 
             // relative to average
             averageUsecase = new TransactionAverageUsecase(transactionListViewDAO);
-            TransactionAverageUI averageUI = new TransactionAverageUI(view, averageUsecase);
-            averageUI.execute();
+            averageController = new TransactionAverageController(averageUsecase, averageModel);
+            view.setAverageController(averageController);
 
-            
             // relative to get month
             monthUsecase = new TransactionMonthUseCase(transactionListViewDAO);
             TransactionViewModel monthModel = new TransactionViewModel();
