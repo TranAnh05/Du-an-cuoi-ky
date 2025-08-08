@@ -16,7 +16,8 @@ public class TransactionMonthUI {
     private TransactionMonthUseCase usecase;
     private TransactionMonthShowUI monthShowUI;
 
-    public TransactionMonthUI(TransactionListViewUI viewUI, TransactionMonthUseCase usecase) {
+    public TransactionMonthUI(TransactionListViewUI viewUI, TransactionMonthUseCase usecase) 
+    {
         this.viewUI = viewUI;
         this.usecase = usecase;
     }

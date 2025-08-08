@@ -6,7 +6,8 @@ import business.TransactionAverageUsecase;
 import java.awt.*;
 import java.text.ParseException;
 
-public class TransactionListViewUI extends JFrame implements Subscriber {
+public class TransactionListViewUI extends JFrame implements Subscriber 
+{
     private TransactionListViewController controller;
       private JTextField txtSearch;
     private JButton btnAdd;
@@ -18,6 +19,8 @@ public class TransactionListViewUI extends JFrame implements Subscriber {
     private JButton btnMonth;
     private JTable table;
     private DefaultTableModel model;
+    private TotalTransactionViewUI totalTransactionViewUI;
+    private TotalTransactionViewController totalTransactionController;
 
     private TransactionViewModel viewModel;
 
@@ -87,6 +90,11 @@ public class TransactionListViewUI extends JFrame implements Subscriber {
         table.setRowHeight(25);
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         add(new JScrollPane(table), BorderLayout.CENTER);
+
+        btnTotal.addActionListener(e -> 
+        {
+            totalTransactionViewUI.setVisible(true);
+        });
     }
 
     // private void makeBtnAverageWork(JButton btnAverage) {
@@ -129,6 +137,13 @@ public class TransactionListViewUI extends JFrame implements Subscriber {
 
     public void setController(TransactionListViewController controller) {
         this.controller = controller;
+    }
+
+    public void setTotalTransactionView(TotalTransactionViewUI view, TotalTransactionViewController controller)
+    {
+        this.totalTransactionViewUI = view;
+        this.totalTransactionController = controller;
+        this.totalTransactionViewUI.setController(controller);
     }
 
     @Override
