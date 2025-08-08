@@ -14,7 +14,6 @@ public class TotalTransactionViewUI extends JFrame implements Subscriber
     private JTable transactionTable;
     private DefaultTableModel model;
     private JTextField totalField;
-    private TotalTransactionUseCase totalUseCase;
     private TotalTransactionViewController controller;
     private TransactionViewModel viewModel;
 
@@ -94,7 +93,6 @@ public class TotalTransactionViewUI extends JFrame implements Subscriber
     public void setController(TotalTransactionViewController controller) 
     {
         this.controller = controller;
-
     }
 
     @Override
