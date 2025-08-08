@@ -16,12 +16,17 @@ import presentation.TotalTransactionViewUI;
 import presentation.TransactionAverageUI;
 import presentation.TransactionListViewController;
 import presentation.TransactionListViewUI;
-import presentation.TransactionMonthUI;
+import presentation.TransactionMonthController;
+import presentation.TransactionMonthSelectUI;
+import presentation.TransactionMonthShowUI;
 import presentation.TransactionViewModel;
 
 public class AppTransaction {
     public static void main(String[] args) {
         TransactionListViewUI view = new TransactionListViewUI();
+        TransactionMonthSelectUI selectUI = new TransactionMonthSelectUI();
+
+        
 
         TransactionViewModel model = new TransactionViewModel();
         TransactionListViewController controller = null;
@@ -29,11 +34,14 @@ public class AppTransaction {
         TransactionSearchUseCase searchUseCase = null;
         TransactionUpdateUseCase updateUseCase = null;
         view.setViewModel(model);
+        // relative to month
+        view.setSelectUI(selectUI);
         // relative to average
         TransactionAverageUsecase averageUsecase = null;
 
         // relative to get month
         TransactionMonthUseCase monthUsecase = null;
+        TransactionMonthController monthController = null;
 
         //Total
         TotalTransactionUseCase totalUseCase = null;
@@ -61,8 +69,14 @@ public class AppTransaction {
             
             // relative to get month
             monthUsecase = new TransactionMonthUseCase(transactionListViewDAO);
-            TransactionMonthUI monthUI = new TransactionMonthUI(view, monthUsecase);
-            monthUI.execute();
+            TransactionViewModel monthModel = new TransactionViewModel();
+            TransactionMonthShowUI showUI = new TransactionMonthShowUI();
+            showUI.setViewModel(monthModel);
+            monthController = new TransactionMonthController(monthUsecase, monthModel);
+            selectUI.setController(monthController);
+            selectUI.setShowMonthUI(showUI);
+            
+            
 
             //Total
             totalUseCase = new TotalTransactionUseCase(new TotalTransactionDAO());
@@ -77,6 +91,6 @@ public class AppTransaction {
             e.printStackTrace();
         } catch (ParseException e) {
             e.printStackTrace();
-        }
+        } 
     }
 }
