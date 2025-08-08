@@ -4,25 +4,26 @@ import java.text.DecimalFormat;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
 import business.entity.Transaction;
 import persistence.TransactionListViewDAO;
 import persistence.TransactionDTO;
+import persistence.TransactionGateway;
 import presentation.Publisher;
 import presentation.TransactionViewItem;
 import presentation.TransactionViewModel;
 
 public class TransactionSearchUseCase extends Publisher {
-    private TransactionListViewDAO dao;
+    // private TransactionListViewDAO dao;
+    private TransactionGateway gateway;
     private TransactionFactory factory;
 
-    public TransactionSearchUseCase(TransactionListViewDAO dao, TransactionFactory factory) {
-        this.dao = dao;
+    public TransactionSearchUseCase(TransactionGateway gateway, TransactionFactory factory) {
+        this.gateway = gateway;
         this.factory = factory;
     }
 
     public List<TransactionViewItem> search(String keyword) throws SQLException {
-        List<TransactionDTO> dtos = dao.searchByKeyword(keyword);
+        List<TransactionDTO> dtos = gateway.searchByKeyword(keyword);
         List<TransactionViewItem> result = convertToTransactionViewItem(dtos);
         TransactionViewModel model = new TransactionViewModel();
         model.transactionList = result;

@@ -4,27 +4,31 @@ import java.text.DecimalFormat;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
 import business.entity.HouseTransaction;
 import business.entity.LandTransaction;
 import business.entity.Transaction;
 import persistence.TransactionListViewDAO;
 import persistence.TransactionDTO;
+import persistence.TransactionGateway;
 import presentation.Publisher;
 import presentation.TransactionViewItem;
 import presentation.TransactionViewModel;
 
 public class TransactionUpdateUseCase extends Publisher {
-    private TransactionListViewDAO dao;
+    // private TransactionListViewDAO dao;
+    private TransactionGateway gateway;
 
-    public TransactionUpdateUseCase(TransactionListViewDAO dao) {
-        this.dao = dao;
+    // public TransactionUpdateUseCase(TransactionListViewDAO dao) {
+    // this.dao = dao;
+    // }
+    public TransactionUpdateUseCase(TransactionGateway gateway) {
+        this.gateway = gateway;
     }
 
     public void updateTransaction(String transactionId, TransactionDTO updatedDto) throws SQLException {
         updatedDto.transactionId = transactionId;
-        dao.updateTransaction(updatedDto);
-        List<TransactionDTO> updatedList = dao.getAll();
+        gateway.updateTransaction(updatedDto);
+        List<TransactionDTO> updatedList = gateway.getAll();
         List<TransactionViewItem> result = convertToTransactionViewItem(updatedList);
         TransactionViewModel model = new TransactionViewModel();
         model.transactionList = result;
@@ -46,7 +50,8 @@ public class TransactionUpdateUseCase extends Publisher {
             item.transactionType = transaction.getTransactionType();
             item.amountTotal = df.format(transaction.calculateAmount());
             item.landType = transaction instanceof LandTransaction ? ((LandTransaction) transaction).getLandType() : "";
-            item.houseType = transaction instanceof HouseTransaction ? ((HouseTransaction) transaction).getHouseType() : "";
+            item.houseType = transaction instanceof HouseTransaction ? ((HouseTransaction) transaction).getHouseType()
+                    : "";
             item.address = dto.address != null ? dto.address : ""; // Lấy address trực tiếp từ DTO
             itemList.add(item);
         }

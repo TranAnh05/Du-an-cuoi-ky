@@ -2,13 +2,11 @@ package presentation;
 
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
-
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
-import business.entity.Transaction;
 import business.TransactionListViewUseCase;
 import business.TransactionSearchUseCase;
 import business.TransactionUpdateUseCase;
@@ -23,7 +21,7 @@ public class TransactionListViewController {
     private TransactionUpdateUseCase updateUseCase;
 
     public TransactionListViewController(TransactionViewModel transactionViewModel,
-            TransactionListViewUseCase usecase) {
+        TransactionListViewUseCase usecase) {
         this.transactionViewModel = transactionViewModel;
         this.usecase = usecase;
     }

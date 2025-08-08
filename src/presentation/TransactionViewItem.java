@@ -12,6 +12,7 @@ public class TransactionViewItem {
     public String landType;
     public String houseType;
     public String address;
+    
     public int getStt() {
         return stt;
     }
