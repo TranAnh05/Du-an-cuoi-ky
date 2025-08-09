@@ -29,12 +29,10 @@ public class TransactionMonthUseCase {
 
     private List<Transaction> convertPerDataToBusData(List<TransactionDTO> listDTO) {
         List<Transaction> listTransactionBus = new ArrayList<Transaction>();
-
         for (TransactionDTO dto : listDTO) {
             Transaction transaction = TransactionFactory.createTransaction(dto);
             listTransactionBus.add(transaction);
         }
-
         return listTransactionBus;
     }
 
