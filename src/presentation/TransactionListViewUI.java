@@ -5,8 +5,11 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.text.ParseException;
 
-public class TransactionListViewUI extends JFrame implements Subscriber {
+public class TransactionListViewUI extends JFrame implements Subscriber 
+{
     private TransactionListViewController controller;
+    private TransactionSearchController searchController;
+    private TransactionUpdateController updateController;
     private JTextField txtSearch;
     private JButton btnAdd;
     private JButton btnEdit; // Nút sửa
@@ -17,6 +20,12 @@ public class TransactionListViewUI extends JFrame implements Subscriber {
     private JButton btnMonth;
     private JTable table;
     private DefaultTableModel model;
+
+    private TotalTransactionViewUI totalTransactionViewUI;
+    private TotalTransactionViewController totalTransactionController;
+
+    // relative to month
+    private TransactionMonthSelectUI selectUI;
     private TransactionViewModel viewModel;
 
     public TransactionListViewUI() {
@@ -32,11 +41,7 @@ public class TransactionListViewUI extends JFrame implements Subscriber {
         // Ô tìm kiếm
         txtSearch = new JTextField();
         txtSearch.addActionListener(e -> {
-            try {
-                controller.searchTransaction(txtSearch.getText());
-            } catch (ParseException e1) {
-                e1.printStackTrace();
-            }
+            searchController.searchTransaction(txtSearch.getText());
         });
 
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
@@ -48,13 +53,9 @@ public class TransactionListViewUI extends JFrame implements Subscriber {
         btnAverage = new JButton("Calculate Average");
         btnMonth = new JButton("Print Month's Transaction");
         btnSearch.addActionListener(e -> {
-            try {
-                controller.searchTransaction(txtSearch.getText());
-            } catch (ParseException e1) {
-                e1.printStackTrace();
-            }
+            searchController.searchTransaction(txtSearch.getText());
         });
-        btnEdit.addActionListener(e -> controller.editTransaction(table.getSelectedRow()));
+        btnEdit.addActionListener(e -> updateController.editTransaction(table.getSelectedRow()));
         buttonPanel.add(btnAdd);
         buttonPanel.add(btnEdit);
         buttonPanel.add(btnDelete);
@@ -83,6 +84,17 @@ public class TransactionListViewUI extends JFrame implements Subscriber {
         table.setRowHeight(25);
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         add(new JScrollPane(table), BorderLayout.CENTER);
+
+        btnTotal.addActionListener(e -> 
+        {
+            totalTransactionViewUI.setVisible(true);
+        });
+
+        // relative to month
+        btnMonth.addActionListener(e -> {
+            selectUI.setVisible(true);
+        });
+
     }
 
     // private void makeBtnAverageWork(JButton btnAverage) {
@@ -95,9 +107,20 @@ public class TransactionListViewUI extends JFrame implements Subscriber {
         return btnAverage;
     }
 
+    public JButton getBtnMonth() {return btnMonth;}
+
+    public void setSelectUI(TransactionMonthSelectUI selectUI) {
+        this.selectUI = selectUI;
+    }
+
+    
     public void setViewModel(TransactionViewModel viewModel) {
         this.viewModel = viewModel;
         viewModel.addSubscriber(this);
+    }
+
+    public TransactionViewModel getViewModel() {
+        return viewModel;
     }
 
     public void showList(TransactionViewModel transactionViewModel) {
@@ -121,6 +144,19 @@ public class TransactionListViewUI extends JFrame implements Subscriber {
 
     public void setController(TransactionListViewController controller) {
         this.controller = controller;
+    }
+
+     public void setSearchController(TransactionSearchController searchController) {
+        this.searchController = searchController;
+    }
+    public void setUpdateController(TransactionUpdateController updateController) {
+        this.updateController = updateController;
+    }
+    public void setTotalTransactionView(TotalTransactionViewUI view, TotalTransactionViewController controller)
+    {
+        this.totalTransactionViewUI = view;
+        this.totalTransactionController = controller;
+        this.totalTransactionViewUI.setController(controller);
     }
 
     @Override

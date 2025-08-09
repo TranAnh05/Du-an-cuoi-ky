@@ -13,7 +13,8 @@ public class TransactionAverageUI {
     private TransactionAverageUsecase usecase;
     private TransactionAverageShowUI averageShowUI;
 
-    public TransactionAverageUI(TransactionListViewUI viewUI, TransactionAverageUsecase usecase) {
+    public TransactionAverageUI(TransactionListViewUI viewUI, TransactionAverageUsecase usecase) 
+    {
         this.viewUI = viewUI;
         this.usecase = usecase;
     }

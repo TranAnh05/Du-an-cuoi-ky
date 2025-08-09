@@ -26,4 +26,5 @@ public class Publisher {
             subscriber.updateData(data);
         }
     }
+
 }
