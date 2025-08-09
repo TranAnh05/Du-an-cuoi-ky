@@ -47,19 +47,17 @@ public class TotalTransactionViewUI extends JFrame implements Subscriber
         this.viewModel = viewModel;
         viewModel.addSubscriber(this);
     }
-
-    // public void setController(TotalTransactionViewController controller) {
-    //     this.controller = controller;
-    // }
+    public void ShowTotal(int totalCount)
+    {
+        totalField.setText(String.valueOf(totalCount));
+    }
 
     @Override
     public void update() 
     {
-        if (viewModel != null) 
-        {
-            totalField.setText(String.valueOf(viewModel.getTotalTransactionCount()));
-        }
+        ShowTotal(viewModel.getTotalTransactionCount());
     }
+    
     @Override
     public void updateData(Object data) {
         throw new UnsupportedOperationException("Unimplemented method 'updateData'");

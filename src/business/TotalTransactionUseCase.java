@@ -30,7 +30,7 @@ public class TotalTransactionUseCase
         int total = calculateTotal(transactions);
         System.out.println("Tổng số lượng giao dịch" + total);
 
-        // Trả về (ép về int nếu cần)  
+        // Trả về  
         return total;
     }
 

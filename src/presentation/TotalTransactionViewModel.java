@@ -7,7 +7,7 @@ public class TotalTransactionViewModel extends Publisher
     public void setTotalTransactionCount(int total) 
     {
         this.totalCount = total;
-        notifySubscribers(); // thông báo cho View
+        notifySubscribers();
     }
 
     public int getTotalTransactionCount() {

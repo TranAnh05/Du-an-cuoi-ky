@@ -90,7 +90,7 @@ public class AppTransaction {
             // truyền view, model, useCase
             TotalTransactionViewController totalController = new TotalTransactionViewController(totalView, totalModel, totalUseCase);
 
-            totalView.setViewModel(totalModel); // Đăng ký Subscriber
+            totalView.setViewModel(totalModel); 
             view.setTotalTransactionView(totalView);
             
         } catch (ClassNotFoundException | SQLException e) {

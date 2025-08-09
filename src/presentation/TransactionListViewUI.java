@@ -102,9 +102,7 @@ public class TransactionListViewUI extends JFrame implements Subscriber
 
         btnTotal.addActionListener(e -> 
         {
-            if (totalTransactionViewUI != null) {
-                totalTransactionViewUI.setVisible(true);
-            }
+            totalTransactionViewUI.setVisible(true);  
         });
 
     }
@@ -118,8 +116,10 @@ public class TransactionListViewUI extends JFrame implements Subscriber
         this.selectUI = selectUI;
     }
 
-    
-    public void setViewModel(TransactionViewModel viewModel) {
+    public JButton getBtnAverage() {return btnAverage;}
+
+    public void setViewModel(TransactionViewModel viewModel) 
+    {
         this.viewModel = viewModel;
         viewModel.addSubscriber(this);
     }
