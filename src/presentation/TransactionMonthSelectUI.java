@@ -2,6 +2,8 @@ package presentation;
 
 import javax.swing.*;
 import java.awt.*;
+import java.sql.SQLException;
+import java.util.List;
 
 public class TransactionMonthSelectUI extends JDialog {
     private JComboBox<Integer> monthCombo;
@@ -10,9 +12,14 @@ public class TransactionMonthSelectUI extends JDialog {
     private JButton btnCancel;
     private int selectedMonth = -1;
     private int selectedYear = -1;
+    private TransactionMonthController monthController;
 
-    public TransactionMonthSelectUI(Frame parent) {
-        super(parent, "Chọn tháng và năm", true);
+
+    private TransactionMonthController controller;
+
+
+    public TransactionMonthSelectUI() {
+        super((Frame) null, "Chọn tháng và năm", true);
         setLayout(new GridLayout(3, 2, 10, 10));
 
         add(new JLabel("Tháng:"));
@@ -35,6 +42,24 @@ public class TransactionMonthSelectUI extends JDialog {
         btnOk.addActionListener(e -> {
             selectedMonth = (int) monthCombo.getSelectedItem();
             selectedYear = (int) yearCombo.getSelectedItem();
+            int result;
+            try {
+                result = controller.checkList(selectedMonth, currentYear);
+                if (result == -1) {
+                    JOptionPane.showMessageDialog(this,
+                        "Không tìm thấy giao dịch nào trong tháng " + selectedMonth + "/" + selectedYear,
+                        "Thông báo",
+                        JOptionPane.INFORMATION_MESSAGE);
+                    dispose();
+                    return;
+                }
+                else{
+                    controller.execute(selectedMonth, selectedYear);
+                }
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+
             dispose();
         });
 
@@ -43,14 +68,10 @@ public class TransactionMonthSelectUI extends JDialog {
         });
 
         setSize(300, 150);
-        setLocationRelativeTo(parent);
+        setLocationRelativeTo(null);
     }
 
-    public int getSelectedMonth() {
-        return selectedMonth;
-    }
-
-    public int getSelectedYear() {
-        return selectedYear;
+    public void setController(TransactionMonthController controller){
+        this.controller = controller;
     }
 }

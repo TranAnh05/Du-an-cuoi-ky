@@ -136,7 +136,7 @@ public class TransactionListViewDAO implements TransactionGateway {
                 while (rs.next()) {
                     TransactionDTO dto = new TransactionDTO();
                     dto.transactionId = rs.getString("id");
-                    dto.transactionDate = rs.getObject("date", java.time.LocalDate.class);
+                    dto.transactionDate = rs.getObject("date", LocalDate.class);
                     dto.unitPrice = rs.getDouble("unitPrice");
                     dto.area = rs.getDouble("area");
                     dto.transactionType = rs.getString("transactionType");
@@ -147,7 +147,6 @@ public class TransactionListViewDAO implements TransactionGateway {
                 }
             }
         }
-        
         return list;
     }
 }

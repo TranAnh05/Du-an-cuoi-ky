@@ -60,7 +60,6 @@ public class TotalTransactionViewUI extends JFrame implements Subscriber
             totalField.setText(String.valueOf(viewModel.getTotalTransactionCount()));
         }
     }
-
     @Override
     public void updateData(Object data) {
         throw new UnsupportedOperationException("Unimplemented method 'updateData'");

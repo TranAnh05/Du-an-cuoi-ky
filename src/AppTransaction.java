@@ -14,16 +14,22 @@ import persistence.TransactionListViewDAO;
 import presentation.TotalTransactionViewController;
 import presentation.TotalTransactionViewModel;
 import presentation.TotalTransactionViewUI;
-import presentation.TransactionAverageUI;
+import presentation.TransactionAverageController;
+import presentation.TransactionAverageModel;
+import presentation.TransactionAverageShowUI;
 import presentation.TransactionListViewController;
 import presentation.TransactionListViewUI;
-import presentation.TransactionMonthUI;
+import presentation.TransactionMonthController;
+import presentation.TransactionMonthSelectUI;
+import presentation.TransactionMonthShowUI;
 import presentation.TransactionViewModel;
 
 public class AppTransaction {
     public static void main(String[] args) 
     {
         TransactionListViewUI view = new TransactionListViewUI();
+        TransactionMonthSelectUI selectUI = new TransactionMonthSelectUI();
+
 
         TransactionViewModel model = new TransactionViewModel();
         TransactionListViewController controller = null;
@@ -31,11 +37,19 @@ public class AppTransaction {
         TransactionSearchUseCase searchUseCase = null;
         TransactionUpdateUseCase updateUseCase = null;
         view.setViewModel(model);
+        // relative to month
+        view.setSelectUI(selectUI);
+
         // relative to average
+        TransactionAverageShowUI averageShowUI = new TransactionAverageShowUI();
+        TransactionAverageModel averageModel = new TransactionAverageModel();
+        averageShowUI.setModel(averageModel);
         TransactionAverageUsecase averageUsecase = null;
+        TransactionAverageController averageController = null;
 
         // relative to get month
         TransactionMonthUseCase monthUsecase = null;
+        TransactionMonthController monthController = null;
 
         //Total
         TotalTransactionUseCase totalUseCase = null;
@@ -57,14 +71,16 @@ public class AppTransaction {
 
             // relative to average
             averageUsecase = new TransactionAverageUsecase(transactionListViewDAO);
-            TransactionAverageUI averageUI = new TransactionAverageUI(view, averageUsecase);
-            averageUI.execute();
+            averageController = new TransactionAverageController(averageUsecase, averageModel);
+            view.setAverageController(averageController);
 
-            
             // relative to get month
             monthUsecase = new TransactionMonthUseCase(transactionListViewDAO);
-            TransactionMonthUI monthUI = new TransactionMonthUI(view, monthUsecase);
-            monthUI.execute();
+            TransactionViewModel monthModel = new TransactionViewModel();
+            TransactionMonthShowUI showUI = new TransactionMonthShowUI();
+            showUI.setViewModel(monthModel);
+            monthController = new TransactionMonthController(monthUsecase, monthModel);
+            selectUI.setController(monthController);
 
             //Total
             totalUseCase = new TotalTransactionUseCase(new TotalTransactionDAO());
@@ -81,6 +97,7 @@ public class AppTransaction {
             e.printStackTrace();
         } catch (ParseException e) {
             e.printStackTrace();
-        }
+        } 
     }
 }
+
