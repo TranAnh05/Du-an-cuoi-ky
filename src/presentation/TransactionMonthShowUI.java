@@ -51,6 +51,7 @@ public class TransactionMonthShowUI extends JDialog implements Subscriber{
             });
         }
     }
+    setVisible(true);
 }
 
     @Override
