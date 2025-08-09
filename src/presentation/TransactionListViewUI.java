@@ -2,8 +2,11 @@ package presentation;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+
 import business.TransactionAverageUsecase;
+
 import java.awt.*;
+import java.sql.SQLException;
 import java.text.ParseException;
 
 public class TransactionListViewUI extends JFrame implements Subscriber 
@@ -11,8 +14,8 @@ public class TransactionListViewUI extends JFrame implements Subscriber
     private TransactionListViewController controller;
       private JTextField txtSearch;
     private JButton btnAdd;
-    private JButton btnEdit; // Nút sửa
-    private JButton btnDelete; // Nút xóa
+    private JButton btnEdit; 
+    private JButton btnDelete; 
     private JButton btnSearch;
     private JButton btnTotal;
     private JButton btnAverage;
@@ -24,6 +27,9 @@ public class TransactionListViewUI extends JFrame implements Subscriber
 
     // relative to month
     private TransactionMonthSelectUI selectUI;
+
+    // relative to average
+    private TransactionAverageController averageController;
 
     private TransactionViewModel viewModel;
 
@@ -104,17 +110,20 @@ public class TransactionListViewUI extends JFrame implements Subscriber
             selectUI.setVisible(true);
         });
 
+        // relative to average
+        btnAverage.addActionListener(e -> {
+            try {
+                averageController.execute();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        });
     }
 
-    // private void makeBtnAverageWork(JButton btnAverage) {
-    //     btnAverage.addActionListener(e -> {
-            
-    //     });
-    // }
-
-    public JButton getBtnAverage() {return btnAverage;}
-
-    public JButton getBtnMonth() {return btnMonth;}
+    // relative to average
+    public void setAverageController(TransactionAverageController averageController){
+        this.averageController = averageController;
+    }
 
     public void setSelectUI(TransactionMonthSelectUI selectUI) {
         this.selectUI = selectUI;
@@ -125,9 +134,7 @@ public class TransactionListViewUI extends JFrame implements Subscriber
         this.viewModel = viewModel;
         viewModel.addSubscriber(this);
     }
-
-
-
+    
     public void showList(TransactionViewModel transactionViewModel) {
 
         model.setRowCount(0);
