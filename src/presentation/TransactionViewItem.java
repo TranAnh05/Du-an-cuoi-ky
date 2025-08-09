@@ -1,8 +1,9 @@
 package presentation;
 
 
-public class TransactionViewItem {
-     public int stt;
+public class TransactionViewItem 
+{
+    public int stt;
     public String transactionId;
     public String transactionDate;
     public String unitPrice;

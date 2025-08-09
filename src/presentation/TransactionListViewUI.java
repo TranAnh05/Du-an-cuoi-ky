@@ -93,8 +93,11 @@ public class TransactionListViewUI extends JFrame implements Subscriber
 
         btnTotal.addActionListener(e -> 
         {
-            totalTransactionViewUI.setVisible(true);
+            if (totalTransactionViewUI != null) {
+                totalTransactionViewUI.setVisible(true);
+            }
         });
+
     }
 
     // private void makeBtnAverageWork(JButton btnAverage) {
@@ -139,11 +142,9 @@ public class TransactionListViewUI extends JFrame implements Subscriber
         this.controller = controller;
     }
 
-    public void setTotalTransactionView(TotalTransactionViewUI view, TotalTransactionViewController controller)
+    public void setTotalTransactionView(TotalTransactionViewUI view) 
     {
         this.totalTransactionViewUI = view;
-        this.totalTransactionController = controller;
-        this.totalTransactionViewUI.setController(controller);
     }
 
     @Override

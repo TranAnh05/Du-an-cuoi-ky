@@ -12,6 +12,7 @@ import business.TransactionUpdateUseCase;
 import persistence.TotalTransactionDAO;
 import persistence.TransactionListViewDAO;
 import presentation.TotalTransactionViewController;
+import presentation.TotalTransactionViewModel;
 import presentation.TotalTransactionViewUI;
 import presentation.TransactionAverageUI;
 import presentation.TransactionListViewController;
@@ -20,7 +21,8 @@ import presentation.TransactionMonthUI;
 import presentation.TransactionViewModel;
 
 public class AppTransaction {
-    public static void main(String[] args) {
+    public static void main(String[] args) 
+    {
         TransactionListViewUI view = new TransactionListViewUI();
 
         TransactionViewModel model = new TransactionViewModel();
@@ -66,12 +68,14 @@ public class AppTransaction {
 
             //Total
             totalUseCase = new TotalTransactionUseCase(new TotalTransactionDAO());
-            TransactionViewModel totalModel = new TransactionViewModel();
+            TotalTransactionViewModel totalModel = new TotalTransactionViewModel();
             TotalTransactionViewUI totalView = new TotalTransactionViewUI();
-            TotalTransactionViewController totalController = new TotalTransactionViewController(totalModel, totalUseCase);
+
+            // truyền view, model, useCase
+            TotalTransactionViewController totalController = new TotalTransactionViewController(totalView, totalModel, totalUseCase);
+
             totalView.setViewModel(totalModel); // Đăng ký Subscriber
-            totalView.setController(totalController); // Thiết lập controller
-            view.setTotalTransactionView(totalView, totalController);
+            view.setTotalTransactionView(totalView);
             
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
