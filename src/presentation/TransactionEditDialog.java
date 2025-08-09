@@ -11,16 +11,7 @@ public class TransactionEditDialog extends JDialog {
     private JTextField txtDate, txtUnitPrice, txtArea, txtTransactionType, txtLandType, txtHouseType, txtAddress;
     private JButton btnSave;
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-private boolean saved = false;
 
-public boolean isSaved() {
-    return saved;
-}
-
-public void setSaved(boolean saved) {
-    this.saved = saved;
-}
-// Gọi setSaved(true) khi nhấn "Lưu"
     public TransactionEditDialog(JFrame parent, String transactionId) {
         super(parent, "Sửa giao dịch: " + transactionId, true);
         setLayout(new GridLayout(8, 2, 5, 5));

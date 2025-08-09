@@ -1,5 +1,4 @@
 package business;
-
 import java.text.DecimalFormat;
 import java.util.List;
 import java.sql.SQLException;
@@ -41,13 +40,17 @@ public class TransactionListViewUseCase extends Publisher {
     }
 
     public List<TransactionViewDTO> execute() throws SQLException, ParseException {
-        List<TransactionDTO> listDTO = DAOGateway.getAll();
-        List<Transaction> transactions = convertToBusinessObjects(listDTO);
+        List<TransactionDTO> listDTO = null;
+        List<Transaction> transactions = null;
+
+        listDTO = DAOGateway.getAll();
+
+        transactions = convertToBusinessObjects(listDTO);
 
         return convertToTransactionViewDTO(transactions);
     }
 
-private List<TransactionViewItem> convertToTransactionViewItem(List<TransactionDTO> listDTO) {
+    private List<TransactionViewItem> convertToTransactionViewItem(List<TransactionDTO> listDTO) {
         List<TransactionViewItem> itemList = new ArrayList<>();
         int stt = 1;
         DecimalFormat df = new DecimalFormat("#,###.##");
@@ -62,8 +65,9 @@ private List<TransactionViewItem> convertToTransactionViewItem(List<TransactionD
             item.transactionType = transaction.getTransactionType();
             item.amountTotal = df.format(transaction.calculateAmount());
             item.landType = transaction instanceof LandTransaction ? ((LandTransaction) transaction).getLandType() : "";
-            item.houseType = transaction instanceof HouseTransaction ? ((HouseTransaction) transaction).getHouseType() : "";
-            item.address = dto.address != null ? dto.address : "";
+            item.houseType = transaction instanceof HouseTransaction ? ((HouseTransaction) transaction).getHouseType()
+                    : "";
+            item.address = dto.address != null ? dto.address : ""; // Lấy address trực tiếp từ DTO
             itemList.add(item);
         }
         return itemList;
