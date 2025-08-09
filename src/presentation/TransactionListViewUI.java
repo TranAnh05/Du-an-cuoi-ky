@@ -102,22 +102,9 @@ public class TransactionListViewUI extends JFrame implements Subscriber
 
         btnTotal.addActionListener(e -> 
         {
-            totalTransactionViewUI.setVisible(true);
+            totalTransactionViewUI.setVisible(true);  
         });
 
-        // relative to month
-        btnMonth.addActionListener(e -> {
-            selectUI.setVisible(true);
-        });
-
-        // relative to average
-        btnAverage.addActionListener(e -> {
-            try {
-                averageController.execute();
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
-        });
     }
 
     // relative to average
@@ -129,8 +116,10 @@ public class TransactionListViewUI extends JFrame implements Subscriber
         this.selectUI = selectUI;
     }
 
-    
-    public void setViewModel(TransactionViewModel viewModel) {
+    public JButton getBtnAverage() {return btnAverage;}
+
+    public void setViewModel(TransactionViewModel viewModel) 
+    {
         this.viewModel = viewModel;
         viewModel.addSubscriber(this);
     }
@@ -160,11 +149,9 @@ public class TransactionListViewUI extends JFrame implements Subscriber
         this.controller = controller;
     }
 
-    public void setTotalTransactionView(TotalTransactionViewUI view, TotalTransactionViewController controller)
+    public void setTotalTransactionView(TotalTransactionViewUI view) 
     {
         this.totalTransactionViewUI = view;
-        this.totalTransactionController = controller;
-        this.totalTransactionViewUI.setController(controller);
     }
 
     @Override

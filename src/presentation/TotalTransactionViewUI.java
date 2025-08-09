@@ -1,28 +1,17 @@
 package presentation;
+
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-
-import business.TotalTransactionUseCase;
-
-
 import java.awt.*;
-import java.util.Vector;
 
-public class TotalTransactionViewUI extends JFrame implements Subscriber
+public class TotalTransactionViewUI extends JFrame implements Subscriber 
 {
     private JRadioButton landButton, houseButton;
-    private JTable transactionTable;
-    private DefaultTableModel model;
     private JTextField totalField;
-    private TotalTransactionUseCase totalUseCase;
-    private TotalTransactionViewController controller;
-    private TransactionViewModel viewModel;
+    private TotalTransactionViewModel viewModel;
 
-
-    public TotalTransactionViewUI() 
-    {
+    public TotalTransactionViewUI() {
         setTitle("Transaction Total Viewer");
-        setSize(800, 400);
+        setSize(400, 200);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
@@ -40,19 +29,6 @@ public class TotalTransactionViewUI extends JFrame implements Subscriber
         topPanel.add(houseButton);
         add(topPanel, BorderLayout.NORTH);
 
-        // Cấu trúc cột cho bảng
-        String[] cols = {"STT", "Mã GD", "Loại giao dịch", "Ngày giao dịch", "Đơn giá", "Diện tích", "Thành tiền"};
-        model = new DefaultTableModel(cols, 0) {
-            @Override
-            public boolean isCellEditable(int row, int column) 
-            {
-                return false; 
-            }
-        };
-
-        transactionTable = new JTable(model);
-        add(new JScrollPane(transactionTable), BorderLayout.CENTER);
-
         // Panel dưới: Hiển thị tổng
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         bottomPanel.add(new JLabel("Total:"));
@@ -61,61 +37,29 @@ public class TotalTransactionViewUI extends JFrame implements Subscriber
         bottomPanel.add(totalField);
         add(bottomPanel, BorderLayout.SOUTH);
 
-        // Gán sự kiện sau khi controller đã có
-        landButton.addActionListener(e -> controller.loadTransactionsByType("GDĐ"));
-        houseButton.addActionListener(e -> controller.loadTransactionsByType("GDN"));
-
+        
     }
-    
-    public void setViewModel(TransactionViewModel viewModel)
-    {
-        this.viewModel= viewModel;
+
+    public JRadioButton getLandButton() { return landButton; }
+    public JRadioButton getHouseButton() { return houseButton; }
+
+    public void setViewModel(TotalTransactionViewModel viewModel) {
+        this.viewModel = viewModel;
         viewModel.addSubscriber(this);
     }
-
-    public void ShowTotalList(TransactionViewModel viewModel, int total) 
+    public void ShowTotal(int totalCount)
     {
-        model.setRowCount(0); 
-        for (TransactionViewItem item : viewModel.transactionList) 
-        {
-            Vector<Object> row = new Vector<>();
-            row.add(item.stt);
-            row.add(item.transactionId);
-            row.add(item.transactionType);
-            row.add(item.transactionDate);
-            row.add(item.unitPrice);
-            row.add(item.area);
-            row.add(item.amountTotal);
-
-            model.addRow(row);
-        }
-        totalField.setText(String.valueOf(total));
-    }
-
-    public void setController(TotalTransactionViewController controller) 
-    {
-        this.controller = controller;
-
-    }
-
-    @Override
-    public void updateData(Object data) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updateData'");
+        totalField.setText(String.valueOf(totalCount));
     }
 
     @Override
     public void update() 
     {
-        if (viewModel != null && viewModel.transactionList != null) 
-        {
-            int totalCount = viewModel.transactionList.size();
-            this.ShowTotalList(viewModel, totalCount);
-        }
+        ShowTotal(viewModel.getTotalTransactionCount());
     }
-
-    public void updateToShow() {
-        
+    
+    @Override
+    public void updateData(Object data) {
+        throw new UnsupportedOperationException("Unimplemented method 'updateData'");
     }
 }
-
