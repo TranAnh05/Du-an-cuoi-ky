@@ -23,9 +23,7 @@ public class Publisher {
     public void notifySubscribers() {
 		 
 		 for (Subscriber subscriber : subscribers) {
-			 
 			 subscriber.update();
-			
 		}
 		 
 	 }
