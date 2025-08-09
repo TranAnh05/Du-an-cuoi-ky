@@ -12,6 +12,7 @@ public class TransactionMonthSelectUI extends JDialog {
     private JButton btnCancel;
     private int selectedMonth = -1;
     private int selectedYear = -1;
+    private TransactionMonthController monthController;
 
 
     private TransactionMonthController controller;
