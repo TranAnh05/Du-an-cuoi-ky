@@ -16,7 +16,6 @@ public class TransactionMonthSelectUI extends JDialog {
 
 
     private TransactionMonthController controller;
-    private TransactionMonthShowUI monthShowUI;
 
 
     public TransactionMonthSelectUI() {
@@ -43,27 +42,24 @@ public class TransactionMonthSelectUI extends JDialog {
         btnOk.addActionListener(e -> {
             selectedMonth = (int) monthCombo.getSelectedItem();
             selectedYear = (int) yearCombo.getSelectedItem();
-            if (selectedMonth <= 0 || selectedYear <= 0) {
-                JOptionPane.showMessageDialog(this,
-                    "Không tìm thấy giao dịch nào trong tháng " + selectedMonth + "/" + selectedYear,
-                    "Thông báo",
-                    JOptionPane.INFORMATION_MESSAGE);
-                dispose();
-                return;
-            }
+            int result;
             try {
-                List<TransactionViewItem> result = controller.execute(selectedMonth, selectedYear);
-                if (result == null || result.isEmpty()) {
+                result = controller.checkList(selectedMonth, currentYear);
+                if (result == -1) {
                     JOptionPane.showMessageDialog(this,
                         "Không tìm thấy giao dịch nào trong tháng " + selectedMonth + "/" + selectedYear,
                         "Thông báo",
                         JOptionPane.INFORMATION_MESSAGE);
-                } else {
-                monthShowUI.setVisible(true);
+                    dispose();
+                    return;
+                }
+                else{
+                    controller.execute(selectedMonth, selectedYear);
                 }
             } catch (SQLException e1) {
                 e1.printStackTrace();
             }
+
             dispose();
         });
 
@@ -77,17 +73,5 @@ public class TransactionMonthSelectUI extends JDialog {
 
     public void setController(TransactionMonthController controller){
         this.controller = controller;
-    }
-
-    public void setShowMonthUI(TransactionMonthShowUI monthShowUI) {
-        this.monthShowUI = monthShowUI;
-    }
-
-    public int getSelectedMonth() {
-        return selectedMonth;
-    }
-
-    public int getSelectedYear() {
-        return selectedYear;
     }
 }
