@@ -1,8 +1,6 @@
-package presentation.TransactionListView;
+package presentation.PrintMonthTransaction;
 
-
-public class TransactionViewItem 
-{
+public class TransactionMonthViewItem {
     public int stt;
     public String transactionId;
     public String transactionDate;
@@ -11,4 +9,3 @@ public class TransactionViewItem
     public String transactionType;
     public String amountTotal;
 }
-

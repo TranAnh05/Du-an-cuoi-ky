@@ -3,8 +3,13 @@ package presentation.TransactionListView;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
+import business.PrintMonthTransaction.PrintMonthTransactionUsecase;
+import persistence.PrintMonthTransaction.PrintMonthTransactionDAO;
 import presentation.Subscriber;
 import presentation.CalculateLandAverage.CalculateLandAverageController;
+import presentation.PrintMonthTransaction.PrintMonthTransactionController;
+import presentation.PrintMonthTransaction.PrintMonthTransactionModel;
+import presentation.PrintMonthTransaction.PrintMonthTransactionView;
 
 import java.awt.*;
 import java.sql.SQLException;
@@ -85,6 +90,36 @@ public class TransactionListViewUI extends JFrame implements Subscriber
                 averageController.execute();
             } catch (SQLException ex) {
                 ex.printStackTrace();
+            }
+        });
+
+        /* ****** RELATIVE TO MONTH  ****** */
+        btnMonth.addActionListener(e -> {
+            PrintMonthTransactionDAO monthDAO = null;
+            PrintMonthTransactionUsecase monthUsecase = null;
+            PrintMonthTransactionController monthController = null;
+            PrintMonthTransactionModel monthModel = null;
+            PrintMonthTransactionView monthView = null;
+
+            try {
+                monthModel = new PrintMonthTransactionModel();
+                monthDAO = new PrintMonthTransactionDAO();
+                monthUsecase = new PrintMonthTransactionUsecase(monthDAO);
+                monthController = new PrintMonthTransactionController(monthUsecase, monthModel);
+                monthView = new PrintMonthTransactionView();
+                monthView.setViewModel(monthModel);
+
+                monthController.execute(2, 2025);
+
+            } catch (ClassNotFoundException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            } catch (SQLException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            } catch (Exception e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
             }
         });
     }
