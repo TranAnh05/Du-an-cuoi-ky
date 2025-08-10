@@ -14,12 +14,6 @@ public class Publisher {
         subscribers.remove(sub);
     }
 
-    public void notifySubscribers(Object data) {
-        for (Subscriber subscriber : subscribers) {
-            subscriber.updateData(data);
-        }
-    }
-
     public void notifySubscribers() {
 		 
 		 for (Subscriber subscriber : subscribers) {

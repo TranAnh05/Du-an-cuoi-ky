@@ -2,96 +2,52 @@
 import java.sql.SQLException;
 import java.text.ParseException;
 
-import business.TotalTransactionUseCase;
-import business.TransactionAverageUsecase;
-import business.TransactionFactory;
-import business.TransactionListViewUseCase;
-import business.TransactionMonthUseCase;
-import business.TransactionSearchUseCase;
-import business.TransactionUpdateUseCase;
-import persistence.TotalTransactionDAO;
-import persistence.TransactionListViewDAO;
-import presentation.TotalTransactionViewController;
-import presentation.TotalTransactionViewModel;
-import presentation.TotalTransactionViewUI;
-import presentation.TransactionAverageController;
-import presentation.TransactionAverageModel;
-import presentation.TransactionAverageShowUI;
-import presentation.TransactionListViewController;
-import presentation.TransactionListViewUI;
-import presentation.TransactionMonthController;
-import presentation.TransactionMonthSelectUI;
-import presentation.TransactionMonthShowUI;
-import presentation.TransactionViewModel;
+import business.CalculateLandAverage.CalculateLandAverageUsecase;
+import business.TransactionListView.TransactionListViewUseCase;
+import persistence.CalculateAmountAverage.CalculateLandAverageDAO;
+import persistence.TransactionListView.TransactionListViewDAO;
+import presentation.CalculateLandAverage.CalculateLandAverageController;
+import presentation.CalculateLandAverage.CalculateLandAverageModel;
+import presentation.CalculateLandAverage.CalculateLandAverageView;
+import presentation.TransactionListView.TransactionListViewController;
+import presentation.TransactionListView.TransactionListViewUI;
+import presentation.TransactionListView.TransactionViewModel;
 
 public class AppTransaction {
     public static void main(String[] args) 
     {
-        TransactionListViewUI view = new TransactionListViewUI();
-        TransactionMonthSelectUI selectUI = new TransactionMonthSelectUI();
+        TransactionListViewUI mainView = new TransactionListViewUI();
 
-
+        /* ***** RELATIVE TO LISTVIEW ***** */
+        TransactionListViewDAO transactionListViewDAO = null;
         TransactionViewModel model = new TransactionViewModel();
-        TransactionListViewController controller = null;
+        TransactionListViewController listViewController = null;
         TransactionListViewUseCase listViewUseCase = null;
-        TransactionSearchUseCase searchUseCase = null;
-        TransactionUpdateUseCase updateUseCase = null;
-        view.setViewModel(model);
-        // relative to month
-        view.setSelectUI(selectUI);
+        mainView.setViewModel(model);
 
-        // relative to average
-        TransactionAverageShowUI averageShowUI = new TransactionAverageShowUI();
-        TransactionAverageModel averageModel = new TransactionAverageModel();
+        /* ***** RELATIVE TO AVERAGE ***** */
+        CalculateLandAverageDAO averageDAO = null;
+        CalculateLandAverageView averageShowUI = new CalculateLandAverageView();
+        CalculateLandAverageModel averageModel = new CalculateLandAverageModel();
         averageShowUI.setModel(averageModel);
-        TransactionAverageUsecase averageUsecase = null;
-        TransactionAverageController averageController = null;
-
-        // relative to get month
-        TransactionMonthUseCase monthUsecase = null;
-        TransactionMonthController monthController = null;
-
-        //Total
-        TotalTransactionUseCase totalUseCase = null;
+        CalculateLandAverageUsecase averageUsecase = null;
+        CalculateLandAverageController averageController = null;
 
         try {
-            // DBConnection dbConn = new DBConnection();
-            TransactionListViewDAO transactionListViewDAO = new TransactionListViewDAO();
-            // TransactionListViewDAO listDao = new TransactionListViewDAO(dbConn.getConnection());
-            TransactionFactory factory = new TransactionFactory();
-            // listViewUseCase = new TransactionListViewUseCase(transactionListViewDAO);
-            listViewUseCase = new TransactionListViewUseCase(transactionListViewDAO, factory);
-            searchUseCase = new TransactionSearchUseCase(transactionListViewDAO, factory);
-            updateUseCase = new TransactionUpdateUseCase(transactionListViewDAO);
+            /* ***** RELATIVE TO LISTVIEW ***** */
+            transactionListViewDAO = new TransactionListViewDAO();
+            listViewUseCase = new TransactionListViewUseCase(transactionListViewDAO);
 
-            controller = new TransactionListViewController(view, model, listViewUseCase, searchUseCase, updateUseCase);
+            listViewController = new TransactionListViewController(model, listViewUseCase);
 
-            controller.execute();
-            view.setVisible(true);
+            listViewController.execute();
+            mainView.setVisible(true);
 
-            // relative to average
-            averageUsecase = new TransactionAverageUsecase(transactionListViewDAO);
-            averageController = new TransactionAverageController(averageUsecase, averageModel);
-            view.setAverageController(averageController);
-
-            // relative to get month
-            monthUsecase = new TransactionMonthUseCase(transactionListViewDAO);
-            TransactionViewModel monthModel = new TransactionViewModel();
-            TransactionMonthShowUI showUI = new TransactionMonthShowUI();
-            showUI.setViewModel(monthModel);
-            monthController = new TransactionMonthController(monthUsecase, monthModel);
-            selectUI.setController(monthController);
-
-            //Total
-            totalUseCase = new TotalTransactionUseCase(new TotalTransactionDAO());
-            TotalTransactionViewModel totalModel = new TotalTransactionViewModel();
-            TotalTransactionViewUI totalView = new TotalTransactionViewUI();
-
-            // truyền view, model, useCase
-            TotalTransactionViewController totalController = new TotalTransactionViewController(totalView, totalModel, totalUseCase);
-
-            totalView.setViewModel(totalModel); 
-            view.setTotalTransactionView(totalView);
+            /* ***** RELATIVE TO AVERAGE ***** */
+            averageDAO = new CalculateLandAverageDAO();
+            averageUsecase = new CalculateLandAverageUsecase(averageDAO);
+            averageController = new CalculateLandAverageController(averageUsecase, averageModel);
+            mainView.setAverageController(averageController);
             
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
