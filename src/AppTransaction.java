@@ -1,29 +1,58 @@
-
 import java.sql.SQLException;
 import java.text.ParseException;
-
 import business.CalculateLandAverage.CalculateLandAverageUsecase;
+import business.OpenEditTransactionForm.OpenEditTransactionFormUseCase;
+import business.SaveEditTransaction.SaveEditTransactionUseCase;
+import business.SearchTransaction.SearchTransactionUseCase;
 import business.TransactionListView.TransactionListViewUseCase;
 import persistence.CalculateAmountAverage.CalculateLandAverageDAO;
+import persistence.OpenEditTransactionForm.OpenEditTransactionFormDAO;
+import persistence.SaveEditTransaction.SaveEditTransactionDAO;
+import persistence.SearchTransaction.SearchTransactionDAO;
 import persistence.TransactionListView.TransactionListViewDAO;
 import presentation.CalculateLandAverage.CalculateLandAverageController;
 import presentation.CalculateLandAverage.CalculateLandAverageModel;
 import presentation.CalculateLandAverage.CalculateLandAverageView;
+import presentation.OpenEditTransactionForm.OpenEditTransactionFormController;
+import presentation.OpenEditTransactionForm.OpenEditTransactionFormModel;
+import presentation.OpenEditTransactionForm.OpenEditTransactionFormUI;
 import presentation.TransactionListView.TransactionListViewController;
 import presentation.TransactionListView.TransactionListViewUI;
 import presentation.TransactionListView.TransactionViewModel;
+import presentation.SaveEditTransaction.SaveEditTransactionController;
+import presentation.SaveEditTransaction.SaveEditTransactionModel;
+import presentation.SearchTransaction.SearchTransactionController;
+import presentation.SearchTransaction.SearchTransactionModel;
 
 public class AppTransaction {
-    public static void main(String[] args) 
-    {
+    public static void main(String[] args) {
         TransactionListViewUI mainView = new TransactionListViewUI();
-
         /* ***** RELATIVE TO LISTVIEW ***** */
         TransactionListViewDAO transactionListViewDAO = null;
-        TransactionViewModel model = new TransactionViewModel();
+        TransactionViewModel viewModel = new TransactionViewModel();
         TransactionListViewController listViewController = null;
         TransactionListViewUseCase listViewUseCase = null;
-        mainView.setViewModel(model);
+        mainView.setViewModel(viewModel); // Keep for initial list display
+
+        /* ***** RELATIVE TO OPEN EDIT FORM ***** */
+        OpenEditTransactionFormDAO editFormDAO = null;
+        OpenEditTransactionFormModel editFormModel = new OpenEditTransactionFormModel();
+        OpenEditTransactionFormUI editFormUI = new OpenEditTransactionFormUI();
+        OpenEditTransactionFormController editFormController = null;
+        OpenEditTransactionFormUseCase editFormUseCase = null;
+        editFormUI.setModel(editFormModel);
+
+        /* ***** RELATIVE TO SAVE EDIT ***** */
+        SaveEditTransactionDAO saveEditDAO = null;
+        SaveEditTransactionUseCase saveEditUseCase = null;
+        SaveEditTransactionModel saveModel = new SaveEditTransactionModel();
+        SaveEditTransactionController saveEditController = null;
+
+        /* ***** RELATIVE TO SEARCH ***** */
+        SearchTransactionDAO searchDAO = null;
+        SearchTransactionUseCase searchUseCase = null;
+        SearchTransactionModel searchModel = new SearchTransactionModel();
+        SearchTransactionController searchController = null;
 
         /* ***** RELATIVE TO AVERAGE ***** */
         CalculateLandAverageDAO averageDAO = null;
@@ -37,23 +66,39 @@ public class AppTransaction {
             /* ***** RELATIVE TO LISTVIEW ***** */
             transactionListViewDAO = new TransactionListViewDAO();
             listViewUseCase = new TransactionListViewUseCase(transactionListViewDAO);
-
-            listViewController = new TransactionListViewController(model, listViewUseCase);
-
+            listViewController = new TransactionListViewController(viewModel, listViewUseCase);
             listViewController.execute();
             mainView.setVisible(true);
+
+            /* ***** RELATIVE TO OPEN EDIT FORM ***** */
+            editFormDAO = new OpenEditTransactionFormDAO();
+            editFormUseCase = new OpenEditTransactionFormUseCase(editFormDAO);
+            editFormController = new OpenEditTransactionFormController(editFormModel, editFormUseCase);
+            mainView.setEditFormController(editFormController);
+            mainView.setEditFormUI(editFormUI);
+
+            /* ***** RELATIVE TO SAVE EDIT ***** */
+            saveEditDAO = new SaveEditTransactionDAO();
+            saveEditUseCase = new SaveEditTransactionUseCase(saveEditDAO);
+            saveEditController = new SaveEditTransactionController(saveModel, saveEditUseCase, listViewController);
+            editFormUI.setSaveController(saveEditController);
+
+            /* ***** RELATIVE TO SEARCH ***** */
+            searchDAO = new SearchTransactionDAO();
+            searchUseCase = new SearchTransactionUseCase(searchDAO);
+            searchController = new SearchTransactionController(searchModel, searchUseCase);
+            mainView.setSearchController(searchController);
+            mainView.setSearchModel(searchModel); // Add this to subscribe to SearchTransactionModel
 
             /* ***** RELATIVE TO AVERAGE ***** */
             averageDAO = new CalculateLandAverageDAO();
             averageUsecase = new CalculateLandAverageUsecase(averageDAO);
             averageController = new CalculateLandAverageController(averageUsecase, averageModel);
             mainView.setAverageController(averageController);
-            
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         } catch (ParseException e) {
             e.printStackTrace();
-        } 
+        }
     }
 }
-

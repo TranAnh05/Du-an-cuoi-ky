@@ -34,7 +34,7 @@ VALUES (
         'GDĐ',
         'B',
         NULL,
-       05 Quang Trung, Go Vap
+        '05 Quang Trung, Go Vap'
     ),
     (
         'GD2',
