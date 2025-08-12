@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import business.TransactionListView.TransactionFactory;
-import business.TransactionListView.entity.Transaction;
+import business.entity.Transaction;
 import persistence.CalculateAmountAverage.CalculateLandAverageGateway;
 import persistence.CalculateAmountAverage.LandTransactionDTO;
 

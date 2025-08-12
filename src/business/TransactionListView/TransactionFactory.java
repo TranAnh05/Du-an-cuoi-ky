@@ -1,8 +1,8 @@
 package business.TransactionListView;
 
-import business.TransactionListView.entity.HouseTransaction;
-import business.TransactionListView.entity.LandTransaction;
-import business.TransactionListView.entity.Transaction;
+import business.entity.HouseTransaction;
+import business.entity.LandTransaction;
+import business.entity.Transaction;
 import persistence.TransactionListView.TransactionDTO;
 
 public class TransactionFactory {

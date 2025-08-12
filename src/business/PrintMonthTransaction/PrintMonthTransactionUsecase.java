@@ -3,7 +3,7 @@ package business.PrintMonthTransaction;
 import java.util.ArrayList;
 import java.util.List;
 
-import business.TransactionListView.entity.Transaction;
+import business.entity.Transaction;
 import persistence.PrintMonthTransaction.MonthTransactionDTO;
 import persistence.PrintMonthTransaction.PrintMonthTransactionGateway;
 

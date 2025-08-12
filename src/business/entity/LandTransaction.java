@@ -1,4 +1,4 @@
-package business.TransactionListView.entity;
+package business.entity;
 
 import java.time.LocalDate;
 
