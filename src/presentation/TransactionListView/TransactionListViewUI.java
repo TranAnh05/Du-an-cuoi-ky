@@ -3,18 +3,12 @@ package presentation.TransactionListView;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-
-import com.mysql.cj.x.protobuf.MysqlxCursor.Open;
 
 import business.OpenChooseMonthForm.OpenChooseMonthFormUsecase;
 import business.OpenChoseTransactionForm.OpenChoseTransactionFormUseCase;
-import business.PrintMonthTransaction.PrintMonthTransactionUsecase;
 import business.TotalTransaction.TotalTransactionUseCase;
 import persistence.OpenChooseMonthForm.OpenChooseMonthFormDAO;
 import persistence.OpenChoseTransactionForm.OpenChoseTransactionDAO;
-import persistence.PrintMonthTransaction.PrintMonthTransactionDAO;
 import persistence.TotalTransaction.TotalTransactionDAO;
 import presentation.Subscriber;
 import presentation.CalculateLandAverage.CalculateLandAverageController;
@@ -24,9 +18,6 @@ import presentation.OpenChooseMonthForm.OpenChooseMonthFormView;
 import presentation.OpenChoseTransactionForm.OpenChoseTransactionFormController;
 import presentation.OpenChoseTransactionForm.OpenChoseTransactionFormModel;
 import presentation.OpenChoseTransactionForm.OpenChoseTransactionFormView;
-import presentation.PrintMonthTransaction.PrintMonthTransactionController;
-import presentation.PrintMonthTransaction.PrintMonthTransactionModel;
-import presentation.PrintMonthTransaction.PrintMonthTransactionView;
 import presentation.TotalTransaction.TotalTransactionController;
 import presentation.TotalTransaction.TotalTransactionModel;
 

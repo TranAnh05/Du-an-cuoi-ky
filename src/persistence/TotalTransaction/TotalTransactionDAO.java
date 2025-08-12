@@ -8,9 +8,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import persistence.OpenChoseTransactionForm.TypeDTO;
-import persistence.TransactionListView.TransactionDTO;
-
 
 public class TotalTransactionDAO  implements TotalTransactionGateway
 {
@@ -20,7 +17,7 @@ public class TotalTransactionDAO  implements TotalTransactionGateway
     {
         Class.forName("com.mysql.cj.jdbc.Driver");
         String username = "root";
-        String password = "123456789";
+        String password = "130405";
         String url = "jdbc:mysql://localhost:3306/transaction?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true";
         conn = DriverManager.getConnection(url, username, password);
     }
