@@ -1,8 +1,9 @@
 package business.TotalTransaction;
 
-import business.TransactionListView.entity.HouseTransaction;
-import business.TransactionListView.entity.LandTransaction;
-import business.TransactionListView.entity.Transaction;
+
+import business.entity.HouseTransaction;
+import business.entity.LandTransaction;
+import business.entity.Transaction;
 import persistence.TotalTransaction.TotalTransactioDTO;
 
 public class TotalTransactionFactory

@@ -1,7 +1,7 @@
 package business.CalculateLandAverage;
 
-import business.TransactionListView.entity.LandTransaction;
-import business.TransactionListView.entity.Transaction;
+import business.entity.LandTransaction;
+import business.entity.Transaction;
 import persistence.CalculateAmountAverage.LandTransactionDTO;
 
 public class LandTransactionFactory {

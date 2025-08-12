@@ -4,18 +4,20 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 import presentation.Subscriber;
+import presentation.TotalTransaction.TotalTransactionController;
+import presentation.TotalTransaction.TotalTransactionModel;
 
 public class OpenChoseTransactionFormView extends JFrame implements Subscriber 
 {
     private JComboBox<String> transactionTypeCombo;
     private JTextField totalField;
-    private JButton calculateBtn;
     private OpenChoseTransactionFormModel transactionModel;
+    private JButton calculateBtn;
 
     public OpenChoseTransactionFormView() 
     {
         initUI();
-        // loadTransactionType(); // Chuyển load sau khi setModel để có dữ liệu
+        loadTransactionType();
     }
 
     private void initUI() 
@@ -42,41 +44,35 @@ public class OpenChoseTransactionFormView extends JFrame implements Subscriber
         totalField.setEditable(false);
         bottomPanel.add(totalField);
 
+        calculateBtn = new JButton("Calculate Total");
+        bottomPanel.add(calculateBtn);
         add(bottomPanel, BorderLayout.SOUTH);
-
-        // Xử lý sự kiện: khi chọn loại giao dịch thay đổi, tự động cập nhật tổng
-        transactionTypeCombo.addActionListener(e -> 
-        {
-            updateTotalForSelectedType();
-        });
-
     }
-    private void updateTotalForSelectedType() 
-    {
-        String selectedType = (String) transactionTypeCombo.getSelectedItem();
-        if (selectedType == null || selectedType.isEmpty()) {
-            totalField.setText("");
-            return;
-        }
-        if (transactionModel == null) {
-            JOptionPane.showMessageDialog(this, 
-                "Model chưa được khởi tạo.", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        try {
-            int total = transactionModel.getTotalByType(selectedType);
-            totalField.setText(String.valueOf(total));
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, 
-                "Lỗi khi tính tổng: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    public void setModel(OpenChoseTransactionFormModel transactionModel) 
+     public void setModel(OpenChoseTransactionFormModel transactionModel) 
     {
         this.transactionModel = transactionModel;
         transactionModel.addSubscriber(this);
-        loadTransactionType();
+    }
+
+    public void setTotalResult(int total) 
+    {
+        totalField.setText(String.valueOf(total));
+    }
+
+    public void bindCalculateButton(TotalTransactionController controller, TotalTransactionModel totalModel) {
+        totalModel.addSubscriber(() -> setTotalResult(totalModel.getTotal()));
+        calculateBtn.addActionListener(e -> 
+        {
+            
+            String selectedType = (String) transactionTypeCombo.getSelectedItem();
+            if (selectedType != null) {
+                try {
+                    controller.execute(selectedType);
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
+                }
+            }
+        });
     }
 
     private void loadTransactionType() 
@@ -92,7 +88,8 @@ public class OpenChoseTransactionFormView extends JFrame implements Subscriber
     }
 
     @Override
-    public void update() {
+    public void update() 
+    {
         loadTransactionType();
         this.setVisible(true);
     }
