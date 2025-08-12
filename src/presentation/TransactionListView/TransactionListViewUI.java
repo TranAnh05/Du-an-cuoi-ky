@@ -3,23 +3,32 @@ package presentation.TransactionListView;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+
 import com.mysql.cj.x.protobuf.MysqlxCursor.Open;
 
 import business.OpenChooseMonthForm.OpenChooseMonthFormUsecase;
+import business.OpenChoseTransactionForm.OpenChoseTransactionFormUseCase;
 import business.PrintMonthTransaction.PrintMonthTransactionUsecase;
 import persistence.OpenChooseMonthForm.OpenChooseMonthFormDAO;
+import persistence.OpenChoseTransactionForm.OpenChoseTransactionDAO;
 import persistence.PrintMonthTransaction.PrintMonthTransactionDAO;
 import presentation.Subscriber;
 import presentation.CalculateLandAverage.CalculateLandAverageController;
 import presentation.OpenChooseMonthForm.OpenChooseMonthFormController;
 import presentation.OpenChooseMonthForm.OpenChooseMonthFormModel;
 import presentation.OpenChooseMonthForm.OpenChooseMonthFormView;
+import presentation.OpenChoseTransactionForm.OpenChoseTransactionFormController;
+import presentation.OpenChoseTransactionForm.OpenChoseTransactionFormModel;
+import presentation.OpenChoseTransactionForm.OpenChoseTransactionFormView;
 import presentation.PrintMonthTransaction.PrintMonthTransactionController;
 import presentation.PrintMonthTransaction.PrintMonthTransactionModel;
 import presentation.PrintMonthTransaction.PrintMonthTransactionView;
 
 import java.awt.*;
 import java.sql.SQLException;
+
 
 public class TransactionListViewUI extends JFrame implements Subscriber 
 {
@@ -120,6 +129,26 @@ public class TransactionListViewUI extends JFrame implements Subscriber
                 e1.printStackTrace();
             } catch (SQLException e1) {
                 e1.printStackTrace();
+            }
+        });
+
+        // TotalTransaction
+        btnTotal.addActionListener(e -> 
+        {
+            try {
+                // Tạo các thành phần của form chọn transaction type
+                OpenChoseTransactionFormModel openModel = new OpenChoseTransactionFormModel();
+                OpenChoseTransactionDAO openDAO = new OpenChoseTransactionDAO();
+                OpenChoseTransactionFormUseCase openUseCase = new OpenChoseTransactionFormUseCase(openDAO);
+                OpenChoseTransactionFormController openController = new OpenChoseTransactionFormController(openModel, openUseCase);
+                OpenChoseTransactionFormView openView = new OpenChoseTransactionFormView();
+                openView.setModel(openModel);
+                openController.execute(); // Load dữ liệu loại giao dịch vào model, gọi notify view
+
+            } catch (ClassNotFoundException ex) {
+                ex.printStackTrace();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
             }
         });
     }

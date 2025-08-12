@@ -2,7 +2,8 @@ package business.PrintMonthTransaction;
 
 import java.time.LocalDate;
 
-public class TransactionMonthViewDTO {
+public class TransactionMonthViewDTO 
+{
     public String transactionId;
     public LocalDate transactionDate;
     public double unitPrice;
