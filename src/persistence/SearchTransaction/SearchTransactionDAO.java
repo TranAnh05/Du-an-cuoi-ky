@@ -19,7 +19,7 @@ public class SearchTransactionDAO implements SearchTransactionGateway {
         String url = "jdbc:mysql://localhost:3306/transaction?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true";
         conn = DriverManager.getConnection(url, username, password);
     }
-
+@Override
     public List<SearchTransactionDTO> searchTransactions(String searchTerm) throws SQLException {
         List<SearchTransactionDTO> dtos = new ArrayList<>();
         String sql = "SELECT id, date, unitPrice, area, transactionType, landType, houseType, address FROM transaction WHERE id LIKE ? OR address LIKE ?";

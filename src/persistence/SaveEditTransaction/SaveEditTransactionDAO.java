@@ -16,7 +16,7 @@ public class SaveEditTransactionDAO implements SaveEditTransactionGateway {
         String url = "jdbc:mysql://localhost:3306/transaction?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true";
         conn = DriverManager.getConnection(url, username, password);
     }
-
+@Override
     public boolean saveTransaction(SaveEditTransactionDTO dto) throws SQLException {
         String sql = "UPDATE transaction SET date = ?, unitPrice = ?, area = ?, transactionType = ?, landType = ?, houseType = ?, address = ? WHERE id = ?";
         PreparedStatement pstmt = conn.prepareStatement(sql);

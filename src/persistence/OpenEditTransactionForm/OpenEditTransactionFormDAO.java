@@ -19,7 +19,7 @@ public class OpenEditTransactionFormDAO implements OpenEditTransactionFormGatewa
         String url = "jdbc:mysql://localhost:3306/transaction?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true";
         conn = DriverManager.getConnection(url, username, password);
     }
-
+@Override
     public List<TransactionDTO> getTransactionById(String transactionId) throws SQLException {
         List<TransactionDTO> dtos = new ArrayList<>();
         String sql = "SELECT id, date, unitPrice, area, transactionType, landType, houseType, address FROM transaction WHERE id = ?";
