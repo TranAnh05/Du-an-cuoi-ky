@@ -1,13 +1,15 @@
-package business.PrintMonthTransaction;
+package persistence.TotalTransaction;
 
 import java.time.LocalDate;
 
-public class TransactionMonthViewDTO 
+public class TotalTransactioDTO 
 {
     public String transactionId;
     public LocalDate transactionDate;
     public double unitPrice;
     public double area;
     public String transactionType;
-    public double amountTotal;
+    public String landType;
+    public String houseType; 
+    public String address;
 }

@@ -3,12 +3,13 @@ package presentation.TransactionListView;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
-import com.mysql.cj.x.protobuf.MysqlxCursor.Open;
 
 import business.OpenChooseMonthForm.OpenChooseMonthFormUsecase;
-import business.PrintMonthTransaction.PrintMonthTransactionUsecase;
+import business.OpenChoseTransactionForm.OpenChoseTransactionFormUseCase;
+import business.TotalTransaction.TotalTransactionUseCase;
 import persistence.OpenChooseMonthForm.OpenChooseMonthFormDAO;
-import persistence.PrintMonthTransaction.PrintMonthTransactionDAO;
+import persistence.OpenChoseTransactionForm.OpenChoseTransactionDAO;
+import persistence.TotalTransaction.TotalTransactionDAO;
 import presentation.Subscriber;
 import presentation.CalculateLandAverage.CalculateLandAverageController;
 import presentation.OpenEditTransactionForm.OpenEditTransactionFormController;
@@ -22,6 +23,11 @@ import presentation.PrintMonthTransaction.PrintMonthTransactionView;
 import presentation.SearchTransaction.SearchTransactionController;
 import presentation.SearchTransaction.SearchTransactionModel;
 import presentation.SearchTransaction.SearchTransactionItem;
+import presentation.OpenChoseTransactionForm.OpenChoseTransactionFormController;
+import presentation.OpenChoseTransactionForm.OpenChoseTransactionFormModel;
+import presentation.OpenChoseTransactionForm.OpenChoseTransactionFormView;
+import presentation.TotalTransaction.TotalTransactionController;
+import presentation.TotalTransaction.TotalTransactionModel;
 
 import java.awt.*;
 import java.sql.SQLException;
@@ -169,6 +175,36 @@ public class TransactionListViewUI extends JFrame implements Subscriber {
                 e1.printStackTrace();
             } catch (SQLException e1) {
                 e1.printStackTrace();
+            }
+        });
+
+        // TotalTransaction
+        btnTotal.addActionListener(e -> 
+        {
+        try 
+        {
+            // Tạo form chọn loại giao dịch
+            OpenChoseTransactionFormModel openModel = new OpenChoseTransactionFormModel();
+            OpenChoseTransactionDAO openDAO = new OpenChoseTransactionDAO();
+            OpenChoseTransactionFormUseCase openUseCase = new OpenChoseTransactionFormUseCase(openDAO);
+            OpenChoseTransactionFormController openController = new OpenChoseTransactionFormController(openModel, openUseCase);
+            OpenChoseTransactionFormView openView = new OpenChoseTransactionFormView();
+            openView.setModel(openModel);
+
+            // Tạo model & controller cho phần tính tổng
+            TotalTransactionModel totalModel = new TotalTransactionModel();
+            TotalTransactionDAO totalDAO = new TotalTransactionDAO();
+            TotalTransactionUseCase totalUseCase = new TotalTransactionUseCase(totalDAO);
+            TotalTransactionController totalController = new TotalTransactionController(totalModel, totalUseCase);
+
+            // Gắn nút Calculate với controller
+            openView.bindCalculateButton(totalController, totalModel);
+
+            // Load dữ liệu loại giao dịch
+            openController.execute(); 
+
+            } catch (ClassNotFoundException | SQLException ex) {
+                ex.printStackTrace();
             }
         });
     }
