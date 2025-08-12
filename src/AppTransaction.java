@@ -62,7 +62,7 @@ public class AppTransaction {
         CalculateLandAverageUsecase averageUsecase = null;
         CalculateLandAverageController averageController = null;
 
-        try {
+        try {   
             /* ***** RELATIVE TO LISTVIEW ***** */
             transactionListViewDAO = new TransactionListViewDAO();
             listViewUseCase = new TransactionListViewUseCase(transactionListViewDAO);

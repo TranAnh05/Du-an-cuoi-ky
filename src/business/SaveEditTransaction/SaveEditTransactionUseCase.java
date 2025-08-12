@@ -5,9 +5,9 @@ import java.time.LocalDate;
 
 import persistence.SaveEditTransaction.SaveEditTransactionDTO;
 import persistence.SaveEditTransaction.SaveEditTransactionGateway;
-import business.TransactionListView.entity.Transaction;
-import business.TransactionListView.entity.HouseTransaction;
-import business.TransactionListView.entity.LandTransaction;
+import business.entity.Transaction;
+import business.entity.HouseTransaction;
+import business.entity.LandTransaction;
 import presentation.Publisher;
 
 public class SaveEditTransactionUseCase extends Publisher {

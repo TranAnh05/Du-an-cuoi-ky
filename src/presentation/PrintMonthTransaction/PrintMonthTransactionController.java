@@ -17,7 +17,9 @@ public class PrintMonthTransactionController {
         this.model = model;
     }   
 
-    public void execute(int month, int year) throws Exception {
+    public void execute(String selectedMonth, String selectedYear) throws Exception {
+        int year = Integer.parseInt(selectedYear);
+        int month = Integer.parseInt(selectedMonth);
         List<TransactionMonthViewDTO> listViewDTO = usecase.execute(month, year);
         List<TransactionMonthViewItem> listViewItem = convertToViewItem(listViewDTO);
 
