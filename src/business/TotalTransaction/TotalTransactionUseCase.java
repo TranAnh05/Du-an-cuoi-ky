@@ -25,7 +25,7 @@ public class TotalTransactionUseCase
         List<Transaction> transactions = convertToBusinessData(transactionDTO);
 
         // Bước 3: Tính tổng số lượng
-        int total = calculateTotal(transactions);
+        int total = calculateTotal(transactions);   
         System.out.println("Tổng số lượng giao dịch" + total);
 
         return total;

@@ -13,8 +13,10 @@ public class TotalTransactionController {
         this.useCase = useCase;
     }
 
-    public void execute(String transactionType) throws SQLException {
-        int total = useCase.execute(transactionType);
-        model.setTotal(total);
+    public void execute(String transactionType) throws SQLException 
+    {
+        int totalValue = useCase.execute(transactionType);
+        model.total = totalValue;
+        model.notifySubscribers();      
     }
 }

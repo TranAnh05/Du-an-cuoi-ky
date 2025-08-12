@@ -48,22 +48,17 @@ public class OpenChoseTransactionFormView extends JFrame implements Subscriber
         bottomPanel.add(calculateBtn);
         add(bottomPanel, BorderLayout.SOUTH);
     }
-     public void setModel(OpenChoseTransactionFormModel transactionModel) 
+    public void setModel(OpenChoseTransactionFormModel transactionModel) 
     {
         this.transactionModel = transactionModel;
         transactionModel.addSubscriber(this);
     }
 
-    public void setTotalResult(int total) 
+    public void bindCalculateButton(TotalTransactionController controller, TotalTransactionModel totalModel) 
     {
-        totalField.setText(String.valueOf(total));
-    }
-
-    public void bindCalculateButton(TotalTransactionController controller, TotalTransactionModel totalModel) {
-        totalModel.addSubscriber(() -> setTotalResult(totalModel.getTotal()));
+        totalModel.addSubscriber(() -> totalField.setText(String.valueOf(totalModel.total)));
         calculateBtn.addActionListener(e -> 
         {
-            
             String selectedType = (String) transactionTypeCombo.getSelectedItem();
             if (selectedType != null) {
                 try {
