@@ -3,10 +3,17 @@ package presentation.TransactionListView;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
+import com.mysql.cj.x.protobuf.MysqlxCursor.Open;
+
+import business.OpenChooseMonthForm.OpenChooseMonthFormUsecase;
 import business.PrintMonthTransaction.PrintMonthTransactionUsecase;
+import persistence.OpenChooseMonthForm.OpenChooseMonthFormDAO;
 import persistence.PrintMonthTransaction.PrintMonthTransactionDAO;
 import presentation.Subscriber;
 import presentation.CalculateLandAverage.CalculateLandAverageController;
+import presentation.OpenChooseMonthForm.OpenChooseMonthFormController;
+import presentation.OpenChooseMonthForm.OpenChooseMonthFormModel;
+import presentation.OpenChooseMonthForm.OpenChooseMonthFormView;
 import presentation.PrintMonthTransaction.PrintMonthTransactionController;
 import presentation.PrintMonthTransaction.PrintMonthTransactionModel;
 import presentation.PrintMonthTransaction.PrintMonthTransactionView;
@@ -93,32 +100,25 @@ public class TransactionListViewUI extends JFrame implements Subscriber
             }
         });
 
-        /* ****** RELATIVE TO MONTH  ****** */
+        /* ****** RELATIVE TO MONTH FORM  ****** */
         btnMonth.addActionListener(e -> {
-            PrintMonthTransactionDAO monthDAO = null;
-            PrintMonthTransactionUsecase monthUsecase = null;
-            PrintMonthTransactionController monthController = null;
-            PrintMonthTransactionModel monthModel = null;
-            PrintMonthTransactionView monthView = null;
+            OpenChooseMonthFormDAO monthFormDAO = null;
+            OpenChooseMonthFormUsecase monthFormUsecase = null;
+            OpenChooseMonthFormController monthFormController = null;
+
+            OpenChooseMonthFormModel monthFormModel = new OpenChooseMonthFormModel();
+            OpenChooseMonthFormView monthFormView = new OpenChooseMonthFormView();
 
             try {
-                monthModel = new PrintMonthTransactionModel();
-                monthDAO = new PrintMonthTransactionDAO();
-                monthUsecase = new PrintMonthTransactionUsecase(monthDAO);
-                monthController = new PrintMonthTransactionController(monthUsecase, monthModel);
-                monthView = new PrintMonthTransactionView();
-                monthView.setViewModel(monthModel);
-
-                monthController.execute(2, 2025);
+                monthFormDAO = new OpenChooseMonthFormDAO();
+                monthFormUsecase = new OpenChooseMonthFormUsecase(monthFormDAO);
+                monthFormController = new OpenChooseMonthFormController(monthFormUsecase, monthFormModel);
+                monthFormView.setModel(monthFormModel);
+                monthFormController.execute();
 
             } catch (ClassNotFoundException e1) {
-                // TODO Auto-generated catch block
                 e1.printStackTrace();
             } catch (SQLException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
-            } catch (Exception e1) {
-                // TODO Auto-generated catch block
                 e1.printStackTrace();
             }
         });
