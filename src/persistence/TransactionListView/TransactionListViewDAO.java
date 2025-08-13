@@ -17,6 +17,7 @@ public class TransactionListViewDAO implements TransactionGateway {
         Class.forName("com.mysql.cj.jdbc.Driver");
         String username = "root";
         String password = "130405";
+        // String password = "12345678";
         String url = "jdbc:mysql://localhost:3306/transaction?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true";
         conn = DriverManager.getConnection(url, username, password);
     }
@@ -24,6 +25,9 @@ public class TransactionListViewDAO implements TransactionGateway {
     public TransactionListViewDAO(Connection conn) {
         this.conn = conn;
     }
+public Connection getConnection() {
+    return conn;
+}
 
     public List<TransactionDTO> getAll() throws SQLException {
         List<TransactionDTO> list = new ArrayList<TransactionDTO>();
