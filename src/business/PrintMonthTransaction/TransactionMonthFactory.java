@@ -7,7 +7,7 @@ import persistence.PrintMonthTransaction.MonthTransactionDTO;
 
 public class TransactionMonthFactory {
     public static Transaction createTransaction(MonthTransactionDTO dto) {
-        if("GDĐ".equalsIgnoreCase(dto.transactionType)) {
+        if("GDD".equalsIgnoreCase(dto.transactionType)) {
                  return new LandTransaction(
                     dto.transactionId, dto.transactionDate,
                     dto.unitPrice = dto.unitPrice,

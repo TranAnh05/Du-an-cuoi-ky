@@ -7,7 +7,7 @@ public class LandTransaction extends Transaction {
 
     public LandTransaction(String transactionId, LocalDate transactionDate, double unitPrice, double area,
            String landType) {
-        super(transactionId, transactionDate, unitPrice, area, "GDĐ");
+        super(transactionId, transactionDate, unitPrice, area, "GDD");
         this.landType = landType;
     }
 

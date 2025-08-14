@@ -25,9 +25,10 @@ public class TransactionListViewDAO implements TransactionGateway {
     public TransactionListViewDAO(Connection conn) {
         this.conn = conn;
     }
-public Connection getConnection() {
-    return conn;
-}
+    
+    public Connection getConnection() {
+        return conn;
+    }
 
     public List<TransactionDTO> getAll() throws SQLException {
         List<TransactionDTO> list = new ArrayList<TransactionDTO>();

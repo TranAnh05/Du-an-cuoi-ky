@@ -9,8 +9,6 @@ import persistence.CalculateAmountAverage.CalculateLandAverageDAO;
 import persistence.OpenEditTransactionForm.OpenEditTransactionFormDAO;
 import persistence.SaveEditTransaction.SaveEditTransactionDAO;
 import persistence.SearchTransaction.SearchTransactionDAO;
-import business.TotalTransaction.TotalTransactionUseCase;
-import persistence.TotalTransaction.TotalTransactionDAO;
 import persistence.TransactionListView.TransactionListViewDAO;
 import presentation.CalculateLandAverage.CalculateLandAverageController;
 import presentation.CalculateLandAverage.CalculateLandAverageModel;
@@ -18,10 +16,6 @@ import presentation.CalculateLandAverage.CalculateLandAverageView;
 import presentation.OpenEditTransactionForm.OpenEditTransactionFormController;
 import presentation.OpenEditTransactionForm.OpenEditTransactionFormModel;
 import presentation.OpenEditTransactionForm.OpenEditTransactionFormUI;
-import presentation.OpenChoseTransactionForm.OpenChoseTransactionFormModel;
-import presentation.OpenChoseTransactionForm.OpenChoseTransactionFormView;
-import presentation.TotalTransaction.TotalTransactionController;
-import presentation.TotalTransaction.TotalTransactionModel;
 import presentation.TransactionListView.TransactionListViewController;
 import presentation.TransactionListView.TransactionListViewUI;
 import presentation.TransactionListView.TransactionViewModel;
@@ -101,6 +95,7 @@ public class AppTransaction {
             averageUsecase = new CalculateLandAverageUsecase(averageDAO);
             averageController = new CalculateLandAverageController(averageUsecase, averageModel);
             mainView.setAverageController(averageController);
+            
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         } catch (ParseException e) {

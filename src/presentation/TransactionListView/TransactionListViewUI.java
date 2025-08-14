@@ -3,23 +3,24 @@ package presentation.TransactionListView;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
-
+import business.OpenAddTransactionForm.OpenAddTransactionFormUsecase;
 import business.OpenChooseMonthForm.OpenChooseMonthFormUsecase;
 import business.OpenChoseTransactionForm.OpenChoseTransactionFormUseCase;
 import business.TotalTransaction.TotalTransactionUseCase;
+import persistence.OpenAddTransactionForm.OpenAddTransactionFormDAO;
 import persistence.OpenChooseMonthForm.OpenChooseMonthFormDAO;
 import persistence.OpenChoseTransactionForm.OpenChoseTransactionDAO;
 import persistence.TotalTransaction.TotalTransactionDAO;
 import presentation.Subscriber;
 import presentation.CalculateLandAverage.CalculateLandAverageController;
+import presentation.OpenAddTransactionForm.OpenAddTransactionFormController;
+import presentation.OpenAddTransactionForm.OpenAddTransactionFormModel;
+import presentation.OpenAddTransactionForm.OpenAddTransactionFormView;
 import presentation.OpenEditTransactionForm.OpenEditTransactionFormController;
 import presentation.OpenEditTransactionForm.OpenEditTransactionFormUI;
 import presentation.OpenChooseMonthForm.OpenChooseMonthFormController;
 import presentation.OpenChooseMonthForm.OpenChooseMonthFormModel;
 import presentation.OpenChooseMonthForm.OpenChooseMonthFormView;
-import presentation.PrintMonthTransaction.PrintMonthTransactionController;
-import presentation.PrintMonthTransaction.PrintMonthTransactionModel;
-import presentation.PrintMonthTransaction.PrintMonthTransactionView;
 import presentation.SearchTransaction.SearchTransactionController;
 import presentation.SearchTransaction.SearchTransactionModel;
 import presentation.SearchTransaction.SearchTransactionItem;
@@ -112,6 +113,29 @@ public class TransactionListViewUI extends JFrame implements Subscriber {
         add(new JScrollPane(table), BorderLayout.CENTER);
 
         // Event handlers
+        btnAdd.addActionListener(e -> {
+            OpenAddTransactionFormDAO addDAO = null;
+            OpenAddTransactionFormUsecase addUsecase = null;
+            OpenAddTransactionFormController addController = null;
+
+            OpenAddTransactionFormModel AddModel = new OpenAddTransactionFormModel();
+            OpenAddTransactionFormView addView = new OpenAddTransactionFormView();
+            addView.setModel(AddModel);
+            
+            try {
+                addDAO = new OpenAddTransactionFormDAO();
+                addUsecase = new OpenAddTransactionFormUsecase(addDAO);
+                addController = new OpenAddTransactionFormController(addUsecase, AddModel);
+                addController.execute();
+
+            } catch (ClassNotFoundException e1) {
+                e1.printStackTrace();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+        });
+
+
         btnEdit.addActionListener(e -> {
             int selectedRow = table.getSelectedRow();
             if (selectedRow != -1) {

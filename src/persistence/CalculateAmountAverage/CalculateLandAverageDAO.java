@@ -32,7 +32,7 @@ public class CalculateLandAverageDAO implements CalculateLandAverageGateway{
 
         String sql = "SELECT id, date, unitPrice, area, transactionType, landType " +
                     "FROM transaction " +
-                    "WHERE transactionType = 'GDĐ'"; 
+                    "WHERE transactionType = 'GDD'"; 
 
         stmt = conn.createStatement();
         rs = stmt.executeQuery(sql);
