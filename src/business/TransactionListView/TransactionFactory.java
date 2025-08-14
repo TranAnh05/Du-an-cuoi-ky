@@ -7,7 +7,7 @@ import persistence.TransactionListView.TransactionDTO;
 
 public class TransactionFactory {
     public static Transaction createTransaction(TransactionDTO dto) {
-        if("GDĐ".equalsIgnoreCase(dto.transactionType)) {
+        if("GDD".equalsIgnoreCase(dto.transactionType)) {
                  return new LandTransaction(
                     dto.transactionId, dto.transactionDate,
                     dto.unitPrice = dto.unitPrice,

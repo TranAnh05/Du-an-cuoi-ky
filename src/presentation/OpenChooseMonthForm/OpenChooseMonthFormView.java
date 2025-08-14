@@ -26,7 +26,6 @@ public class OpenChooseMonthFormView extends JFrame implements Subscriber{
     private void initUI() {
         setTitle("Chọn tháng và năm");
         setSize(300, 150);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
         cbYear = new JComboBox<>();
@@ -74,7 +73,7 @@ public class OpenChooseMonthFormView extends JFrame implements Subscriber{
             }
         });
 
-        btnSelect.addActionListener(e ->{
+        btnCancel.addActionListener(e -> {
             dispose();
         });
 
