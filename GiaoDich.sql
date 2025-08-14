@@ -31,7 +31,7 @@ VALUES (
         '2024-10-20',
         1000000,
         80,
-        'GDĐ',
+        'GDD',
         'B',
         NULL,
         '05 Quang Trung, Go Vap'

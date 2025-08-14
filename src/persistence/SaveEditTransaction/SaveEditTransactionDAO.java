@@ -24,7 +24,7 @@ public class SaveEditTransactionDAO implements SaveEditTransactionGateway {
         pstmt.setDouble(2, dto.unitPrice);
         pstmt.setDouble(3, dto.area);
         pstmt.setString(4, dto.transactionType);
-        if ("GDĐ".equalsIgnoreCase(dto.transactionType)) {
+        if ("GDD".equalsIgnoreCase(dto.transactionType)) {
             pstmt.setString(5, dto.landType);
             pstmt.setNull(6, java.sql.Types.VARCHAR);
             pstmt.setNull(7, java.sql.Types.VARCHAR);

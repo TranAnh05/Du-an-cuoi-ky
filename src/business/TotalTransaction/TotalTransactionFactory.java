@@ -10,7 +10,7 @@ public class TotalTransactionFactory
 {
     public static Transaction createTransaction(TotalTransactioDTO dto) 
     {
-        if("GDĐ".equalsIgnoreCase(dto.transactionType)) {
+        if("GDD".equalsIgnoreCase(dto.transactionType)) {
                  return new LandTransaction(
                     dto.transactionId, dto.transactionDate,
                     dto.unitPrice = dto.unitPrice,
