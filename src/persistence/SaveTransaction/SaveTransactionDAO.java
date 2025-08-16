@@ -13,8 +13,8 @@ public class SaveTransactionDAO implements SaveTransactionGateway{
 
         Class.forName("com.mysql.cj.jdbc.Driver");
         String username = "root";
-        String password = "130405";
-        // String password = "12345678";
+        // String password = "130405";
+        String password = "12345678";
         String url = "jdbc:mysql://localhost:3306/transaction?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true";
         conn = DriverManager.getConnection(url, username, password);
     }

@@ -4,7 +4,6 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import javax.swing.JOptionPane;
 import business.SaveEditTransaction.SaveEditTransactionUseCase;
 import presentation.TransactionListView.TransactionListViewController;
 

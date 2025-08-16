@@ -15,7 +15,7 @@ public class OpenAddTransactionFormDAO implements OpenAddTransactionFormGateway{
 
         Class.forName("com.mysql.cj.jdbc.Driver");
         String username = "root";
-        String password = "130405";
+        String password = "12345678";
         String url = "jdbc:mysql://localhost:3306/transaction?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true";
         conn = DriverManager.getConnection(url, username, password);
     }
@@ -29,7 +29,9 @@ public class OpenAddTransactionFormDAO implements OpenAddTransactionFormGateway{
         Statement stmt = null;
         ResultSet rs = null;
 
-        String sql = "SELECT * FROM transaction_type";
+        String sql = "SELECT DISTINCT transactionType AS transactionTypeCode, " +
+             "transactionType AS transactionTypeName, '' AS description " +
+             "FROM transaction";
         stmt = conn.createStatement();
         rs = stmt.executeQuery(sql);
 

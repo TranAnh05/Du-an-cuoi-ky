@@ -21,10 +21,11 @@ public class HouseTransaction extends Transaction {
     public double calculateAmount() {
         if ("luxury".equalsIgnoreCase(houseType)) { 
             return area * unitPrice;
-        } else if ("normal".equalsIgnoreCase(houseType)) { 
+        } 
+        // else if ("normal".equalsIgnoreCase(houseType)) { 
             return area * unitPrice * 0.9; 
-        } else {
-            throw new IllegalArgumentException("Loại nhà không hợp lệ: " + houseType);
-        }
+        // } else {
+        //     throw new IllegalArgumentException("Loại nhà không hợp lệ: " + houseType);
+        // }
     }
 }

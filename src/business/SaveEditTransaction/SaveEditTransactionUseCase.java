@@ -10,7 +10,7 @@ import business.entity.HouseTransaction;
 import business.entity.LandTransaction;
 import presentation.Publisher;
 
-public class SaveEditTransactionUseCase extends Publisher {
+public class SaveEditTransactionUseCase{
     private SaveEditTransactionGateway DAOGateway;
 
     public SaveEditTransactionUseCase(SaveEditTransactionGateway DAOGateway) {
@@ -21,9 +21,9 @@ public class SaveEditTransactionUseCase extends Publisher {
         Transaction transaction = SaveEditTransactionFactory.createTransaction(transactionId, transactionDate, unitPrice, area, transactionType, landType, houseType, address);
         SaveEditTransactionDTO dto = convertToDTO(transaction);
         boolean success = DAOGateway.saveTransaction(dto);
-        if (success) {
-            notifySubscribers();
-        }
+        // if (success) {
+        //     notifySubscribers();
+        // }
         return success;
     }
 
