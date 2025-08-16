@@ -8,9 +8,8 @@ import business.entity.HouseTransaction;
 import business.entity.LandTransaction;
 import persistence.OpenEditTransactionForm.OpenEditTransactionFormGateway;
 import persistence.OpenEditTransactionForm.TransactionDTO;
-import presentation.Publisher;
 
-public class OpenEditTransactionFormUseCase extends Publisher {
+public class OpenEditTransactionFormUseCase {
     private OpenEditTransactionFormGateway DAOGateway;
 
     public OpenEditTransactionFormUseCase(OpenEditTransactionFormGateway DAOGateway) {

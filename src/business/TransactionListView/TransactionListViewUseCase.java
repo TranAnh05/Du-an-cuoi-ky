@@ -37,7 +37,6 @@ public class TransactionListViewUseCase extends Publisher {
             Transaction transaction = TransactionFactory.createTransaction(dto);
             transactions.add(transaction);
         }
-
         return transactions;
     }
 

@@ -29,7 +29,9 @@ public class OpenAddTransactionFormDAO implements OpenAddTransactionFormGateway{
         Statement stmt = null;
         ResultSet rs = null;
 
-        String sql = "SELECT * FROM transaction_type";
+        String sql = "SELECT DISTINCT transactionType AS transactionTypeCode, " +
+             "transactionType AS transactionTypeName, '' AS description " +
+             "FROM transaction";
         stmt = conn.createStatement();
         rs = stmt.executeQuery(sql);
 

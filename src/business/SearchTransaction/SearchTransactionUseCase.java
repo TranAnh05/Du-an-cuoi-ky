@@ -10,7 +10,7 @@ import persistence.SearchTransaction.SearchTransactionDTO;
 import persistence.SearchTransaction.SearchTransactionGateway;
 import presentation.Publisher;
 
-public class SearchTransactionUseCase extends Publisher {
+public class SearchTransactionUseCase  {
     private SearchTransactionGateway DAOGateway;
 
     public SearchTransactionUseCase(SearchTransactionGateway DAOGateway) {

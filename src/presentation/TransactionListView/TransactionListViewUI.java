@@ -29,7 +29,10 @@ import presentation.OpenChoseTransactionForm.OpenChoseTransactionFormModel;
 import presentation.OpenChoseTransactionForm.OpenChoseTransactionFormView;
 import presentation.TotalTransaction.TotalTransactionController;
 import presentation.TotalTransaction.TotalTransactionModel;
-
+// NEW imports for Delete & refresh
+import presentation.DeleteTransaction.DeleteTransactionController;
+import presentation.DeleteTransaction.DeleteTransactionModel;
+import business.DeleteTransaction.DeleteTransactionViewDTO;
 import java.awt.*;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
@@ -46,19 +49,23 @@ public class TransactionListViewUI extends JFrame implements Subscriber {
     private JTable table;
     private DefaultTableModel model;
 
-    // relative to month
     // relative to average
     private CalculateLandAverageController averageController;
 
-    private TransactionViewModel viewModel; // For initial list and edit updates
-    private SearchTransactionModel searchModel; // For search results
+    private TransactionViewModel viewModel; // initial list + edit updates
+    private SearchTransactionModel searchModel; // search results
 
-    // relative to edit form
+    // edit form
     private OpenEditTransactionFormController editFormController;
     private OpenEditTransactionFormUI editFormUI;
 
-    // relative to search
+    // search
     private SearchTransactionController searchController;
+
+    // add fields:
+    private DeleteTransactionModel deleteModel;
+    private DeleteTransactionController deleteController;
+    private TransactionListViewController listViewController;
 
     public TransactionListViewUI() {
         super("Quản lý danh sách giao dịch");
@@ -94,15 +101,16 @@ public class TransactionListViewUI extends JFrame implements Subscriber {
         topPanel.add(buttonPanel, BorderLayout.EAST);
         add(topPanel, BorderLayout.NORTH);
 
-        String[] cols = {"STT", "Mã GD", "Ngày giao dịch", "Loại giao dịch", "Đơn giá", "Diện tích", "Thành tiền"};
+        String[] cols = { "STT", "Mã GD", "Ngày giao dịch", "Loại giao dịch", "Đơn giá", "Diện tích", "Thành tiền" };
         model = new DefaultTableModel(cols, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
+
             @Override
             public Class<?> getColumnClass(int columnIndex) {
-                return String.class; // Ensure all columns are treated as strings
+                return String.class;
             }
         };
 
@@ -113,15 +121,16 @@ public class TransactionListViewUI extends JFrame implements Subscriber {
         add(new JScrollPane(table), BorderLayout.CENTER);
 
         // Event handlers
+        // Add
         btnAdd.addActionListener(e -> {
-            OpenAddTransactionFormDAO addDAO = null;
-            OpenAddTransactionFormUsecase addUsecase = null;
-            OpenAddTransactionFormController addController = null;
+            OpenAddTransactionFormDAO addDAO;
+            OpenAddTransactionFormUsecase addUsecase;
+            OpenAddTransactionFormController addController;
 
             OpenAddTransactionFormModel AddModel = new OpenAddTransactionFormModel();
             OpenAddTransactionFormView addView = new OpenAddTransactionFormView();
             addView.setModel(AddModel);
-            
+
             try {
                 addDAO = new OpenAddTransactionFormDAO();
                 addUsecase = new OpenAddTransactionFormUsecase(addDAO);
@@ -135,27 +144,31 @@ public class TransactionListViewUI extends JFrame implements Subscriber {
             }
         });
 
-
+        // Edit
         btnEdit.addActionListener(e -> {
             int selectedRow = table.getSelectedRow();
             if (selectedRow != -1) {
-                String transactionId = (String) model.getValueAt(selectedRow, 1); // Column 1 is transactionId
+                String transactionId = (String) model.getValueAt(selectedRow, 1);// Column 1 is transactionId
                 if (editFormController != null) {
                     try {
                         editFormController.execute(transactionId);
                         editFormUI.setVisible(true);
                     } catch (SQLException ex) {
                         ex.printStackTrace();
-                        JOptionPane.showMessageDialog(this, "Failed to load transaction details.", "Error", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(this, "Failed to load transaction details.", "Error",
+                                JOptionPane.ERROR_MESSAGE);
                     }
                 } else {
-                    JOptionPane.showMessageDialog(this, "Edit functionality is not initialized. Check database connection.", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this,
+                            "Edit functionality is not initialized. Check database connection.", "Error",
+                            JOptionPane.ERROR_MESSAGE);
                 }
             } else {
                 JOptionPane.showMessageDialog(this, "Please select a transaction to edit.");
             }
         });
 
+        // Search
         btnSearch.addActionListener(e -> {
             if (searchController != null) {
                 try {
@@ -163,13 +176,16 @@ public class TransactionListViewUI extends JFrame implements Subscriber {
                     System.out.println("Search executed with term: " + txtSearch.getText() + ", UI update triggered");
                 } catch (SQLException ex) {
                     ex.printStackTrace();
-                    JOptionPane.showMessageDialog(this, "Search failed: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Search failed: " + ex.getMessage(), "Error",
+                            JOptionPane.ERROR_MESSAGE);
                 }
             } else {
-                JOptionPane.showMessageDialog(this, "Search functionality is not initialized.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Search functionality is not initialized.", "Error",
+                        JOptionPane.ERROR_MESSAGE);
             }
         });
 
+        // Average
         btnAverage.addActionListener(e -> {
             try {
                 if (averageController != null) {
@@ -180,10 +196,11 @@ public class TransactionListViewUI extends JFrame implements Subscriber {
             }
         });
 
+        // Month
         btnMonth.addActionListener(e -> {
-            OpenChooseMonthFormDAO monthFormDAO = null;
-            OpenChooseMonthFormUsecase monthFormUsecase = null;
-            OpenChooseMonthFormController monthFormController = null;
+            OpenChooseMonthFormDAO monthFormDAO;
+            OpenChooseMonthFormUsecase monthFormUsecase;
+            OpenChooseMonthFormController monthFormController;
 
             OpenChooseMonthFormModel monthFormModel = new OpenChooseMonthFormModel();
             OpenChooseMonthFormView monthFormView = new OpenChooseMonthFormView();
@@ -203,32 +220,67 @@ public class TransactionListViewUI extends JFrame implements Subscriber {
         });
 
         // TotalTransaction
-        btnTotal.addActionListener(e -> 
-        {
-        try 
-        {
-            // Tạo form chọn loại giao dịch
-            OpenChoseTransactionFormModel openModel = new OpenChoseTransactionFormModel();
-            OpenChoseTransactionDAO openDAO = new OpenChoseTransactionDAO();
-            OpenChoseTransactionFormUseCase openUseCase = new OpenChoseTransactionFormUseCase(openDAO);
-            OpenChoseTransactionFormController openController = new OpenChoseTransactionFormController(openModel, openUseCase);
-            OpenChoseTransactionFormView openView = new OpenChoseTransactionFormView();
-            openView.setModel(openModel);
+        btnTotal.addActionListener(e -> {
+            try {
+                OpenChoseTransactionFormModel openModel = new OpenChoseTransactionFormModel();
+                OpenChoseTransactionDAO openDAO = new OpenChoseTransactionDAO();
+                OpenChoseTransactionFormUseCase openUseCase = new OpenChoseTransactionFormUseCase(openDAO);
+                OpenChoseTransactionFormController openController = new OpenChoseTransactionFormController(openModel,
+                        openUseCase);
+                OpenChoseTransactionFormView openView = new OpenChoseTransactionFormView();
+                openView.setModel(openModel);
 
-            // Tạo model & controller cho phần tính tổng
-            TotalTransactionModel totalModel = new TotalTransactionModel();
-            TotalTransactionDAO totalDAO = new TotalTransactionDAO();
-            TotalTransactionUseCase totalUseCase = new TotalTransactionUseCase(totalDAO);
-            TotalTransactionController totalController = new TotalTransactionController(totalModel, totalUseCase);
+                // Tạo model & controller cho phần tính tổng
+                TotalTransactionModel totalModel = new TotalTransactionModel();
+                TotalTransactionDAO totalDAO = new TotalTransactionDAO();
+                TotalTransactionUseCase totalUseCase = new TotalTransactionUseCase(totalDAO);
+                TotalTransactionController totalController = new TotalTransactionController(totalModel, totalUseCase);
 
-            // Gắn nút Calculate với controller
-            openView.bindCalculateButton(totalController, totalModel);
-
-            // Load dữ liệu loại giao dịch
-            openController.execute(); 
+                // Gắn nút Calculate với controller
+                openView.bindCalculateButton(totalController, totalModel);
+                // Load dữ liệu loại giao dịch
+                openController.execute();
 
             } catch (ClassNotFoundException | SQLException ex) {
                 ex.printStackTrace();
+            }
+        });
+
+        // Delete
+        btnDelete.addActionListener(e -> {
+            int selectedRow = table.getSelectedRow();
+            if (selectedRow == -1) {
+                JOptionPane.showMessageDialog(this, "Please select a transaction to delete.");
+                return;
+            }
+            String transactionId = (String) model.getValueAt(selectedRow, 1);
+            if (deleteController == null) {
+                JOptionPane.showMessageDialog(this, "Delete functionality is not initialized.");
+                return;
+            }
+            int confirm = JOptionPane.showConfirmDialog(this, "Xóa giao dịch " + transactionId + "?", "Confirm",
+                    JOptionPane.YES_NO_OPTION);
+            if (confirm != JOptionPane.YES_OPTION)
+                return;
+            try {
+                boolean ok = deleteController.execute(transactionId);
+                if (ok) {
+                    DeleteTransactionViewDTO info = deleteModel != null ? deleteModel.getDeletedTransaction() : null;
+                    JOptionPane.showMessageDialog(this,
+                            info != null ? ("Đã xóa: " + info.getTransactionId()) : "Đã xóa thành công");
+                    // refresh list
+                    if (listViewController != null) {
+                        listViewController.execute();
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(this, "Không tìm thấy giao dịch: " + transactionId);
+                }
+            } catch (java.sql.SQLException ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Lỗi SQL: " + ex.getMessage());
+            } catch (java.text.ParseException ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Lỗi định dạng: " + ex.getMessage());
             }
         });
     }
@@ -245,21 +297,22 @@ public class TransactionListViewUI extends JFrame implements Subscriber {
 
     public void setSearchModel(SearchTransactionModel searchModel) {
         this.searchModel = searchModel;
-        searchModel.addSubscriber(this); // Subscribe to SearchTransactionModel for search updates
+        searchModel.addSubscriber(this);// Subscribe to SearchTransactionModel for search updates
     }
 
     public void showList(TransactionViewModel transactionViewModel) {
         model.setRowCount(0); // Clear existing rows
-        System.out.println("Updating table with " + transactionViewModel.transactionList.size() + " items from viewModel"); // Debug
+        System.out.println(
+                "Updating table with " + transactionViewModel.transactionList.size() + " items from viewModel");
         for (TransactionViewItem item : transactionViewModel.transactionList) {
             Object[] row = {
-                item.stt,
-                item.transactionId,
-                item.transactionDate,
-                item.transactionType,
-                item.unitPrice,
-                item.area,
-                item.amountTotal
+                    item.stt,
+                    item.transactionId,
+                    item.transactionDate,
+                    item.transactionType,
+                    item.unitPrice,
+                    item.area,
+                    item.amountTotal
             };
             model.addRow(row);
         }
@@ -270,17 +323,18 @@ public class TransactionListViewUI extends JFrame implements Subscriber {
         System.out.println("UI update called"); // Debug
         if (searchModel != null && searchModel.transactionItems != null) {
             model.setRowCount(0); // Clear existing rows for search results
-            System.out.println("Updating table with " + searchModel.transactionItems.size() + " items from searchModel"); // Debug
+            System.out
+                    .println("Updating table with " + searchModel.transactionItems.size() + " items from searchModel"); // Debug
             DecimalFormat df = new DecimalFormat("#,##0.00"); // Format to avoid scientific notation
             for (SearchTransactionItem item : searchModel.transactionItems) {
                 Object[] row = {
-                    item.stt,
-                    item.transactionId,
-                    item.transactionDate.toString(),
-                    item.transactionType,
-                    String.valueOf(item.unitPrice),
-                    String.valueOf(item.area),
-                    df.format(item.unitPrice * item.area) // Format amountTotal
+                        item.stt,
+                        item.transactionId,
+                        item.transactionDate.toString(),
+                        item.transactionType,
+                        String.valueOf(item.unitPrice),
+                        String.valueOf(item.area),
+                        df.format(item.unitPrice * item.area) // Format amountTotal
                 };
                 model.addRow(row);
             }
@@ -302,4 +356,19 @@ public class TransactionListViewUI extends JFrame implements Subscriber {
     public void setSearchController(SearchTransactionController searchController) {
         this.searchController = searchController;
     }
+
+    // NEW setters
+    public void setListViewController(TransactionListViewController listViewController) {
+        this.listViewController = listViewController;
+    }
+
+    // delete
+    public void setDeleteController(DeleteTransactionController controller) {
+        this.deleteController = controller;
+    }
+
+    public void setDeleteModel(DeleteTransactionModel model) {
+        this.deleteModel = model;
+    }
+
 }
