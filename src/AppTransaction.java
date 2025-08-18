@@ -6,17 +6,13 @@ import business.OpenEditTransactionForm.OpenEditTransactionFormUseCase;
 import business.SaveEditTransaction.SaveEditTransactionUseCase;
 import business.SearchTransaction.SearchTransactionUseCase;
 import business.TransactionListView.TransactionListViewUseCase;
-
-import business.DeleteTransaction.DeleteTransactionUseCase; // NEW
-
+import business.DeleteTransaction.DeleteTransactionUseCase; 
 import persistence.CalculateAmountAverage.CalculateLandAverageDAO;
 import persistence.OpenEditTransactionForm.OpenEditTransactionFormDAO;
 import persistence.SaveEditTransaction.SaveEditTransactionDAO;
 import persistence.SearchTransaction.SearchTransactionDAO;
 import persistence.TransactionListView.TransactionListViewDAO;
-
-import persistence.DeleteTransaction.DeleteTransactionDAO; // NEW
-
+import persistence.DeleteTransaction.DeleteTransactionDAO; 
 import presentation.CalculateLandAverage.CalculateLandAverageController;
 import presentation.CalculateLandAverage.CalculateLandAverageModel;
 import presentation.CalculateLandAverage.CalculateLandAverageView;
@@ -30,13 +26,9 @@ import presentation.SaveEditTransaction.SaveEditTransactionController;
 import presentation.SaveEditTransaction.SaveEditTransactionModel;
 import presentation.SearchTransaction.SearchTransactionController;
 import presentation.SearchTransaction.SearchTransactionModel;
+import presentation.DeleteTransaction.DeleteTransactionController; 
+import presentation.DeleteTransaction.DeleteTransactionModel; 
 
-import presentation.DeleteTransaction.DeleteTransactionController; // NEW
-import presentation.DeleteTransaction.DeleteTransactionModel; // NEW
-import business.DeleteTransaction.DeleteTransactionUseCase;
-import persistence.DeleteTransaction.DeleteTransactionDAO;
-import presentation.DeleteTransaction.DeleteTransactionController;
-import presentation.DeleteTransaction.DeleteTransactionModel;
 
 
 public class AppTransaction {
@@ -57,6 +49,7 @@ public class AppTransaction {
         OpenEditTransactionFormUseCase editFormUseCase = null;
         editFormUI.setModel(editFormModel);
 
+        
         /* ***** RELATIVE TO SAVE EDIT ***** */
         SaveEditTransactionDAO saveEditDAO = null;
         SaveEditTransactionUseCase saveEditUseCase = null;
@@ -117,7 +110,9 @@ public class AppTransaction {
             DeleteTransactionDAO deleteDAO = new DeleteTransactionDAO();
             DeleteTransactionUseCase deleteUseCase = new DeleteTransactionUseCase(deleteDAO);
             DeleteTransactionModel deleteModel = new DeleteTransactionModel();
-            DeleteTransactionController deleteController = new DeleteTransactionController(deleteModel, deleteUseCase);
+            // DeleteTransactionController deleteController = new DeleteTransactionController(deleteModel, deleteUseCase);
+            DeleteTransactionController deleteController = new DeleteTransactionController(deleteModel, deleteUseCase,listViewController);
+
             mainView.setDeleteController(deleteController);
             mainView.setDeleteModel(deleteModel);
 

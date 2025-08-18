@@ -62,9 +62,11 @@ public class TransactionListViewUI extends JFrame implements Subscriber {
     // search
     private SearchTransactionController searchController;
 
-    // add fields:
+    // delete
     private DeleteTransactionModel deleteModel;
     private DeleteTransactionController deleteController;
+
+
     private TransactionListViewController listViewController;
 
     public TransactionListViewUI() {

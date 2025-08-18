@@ -3,14 +3,14 @@ package persistence.DeleteTransaction;
 import java.util.Date;
 
 public class DeleteTransactionDTO {
-    private final String transactionId;
-    private final String transactionType;
-    private final Date transactionDate;
-    private final double unitPrice;
-    private final double area;
-    private final String landType;
-    private final String houseType;
-    private final String address;
+    private String transactionId;
+    private String transactionType;
+    private Date transactionDate;
+    private double unitPrice;
+    private double area;
+    private String landType;
+    private String houseType;
+    private String address;
 
     public DeleteTransactionDTO(
         String transactionId,

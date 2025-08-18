@@ -1,10 +1,15 @@
 package presentation.DeleteTransaction;
 
-import business.DeleteTransaction.DeleteTransactionViewDTO;
+import java.util.List;
 
-public class DeleteTransactionModel {
+import business.DeleteTransaction.DeleteTransactionViewDTO;
+import presentation.Publisher;
+import presentation.TransactionListView.TransactionViewItem;
+
+public class DeleteTransactionModel extends Publisher {
     private DeleteTransactionViewDTO deletedTransaction;
 
     public DeleteTransactionViewDTO getDeletedTransaction() { return deletedTransaction; }
     public void setDeletedTransaction(DeleteTransactionViewDTO deletedTransaction) { this.deletedTransaction = deletedTransaction; }
+    public List<DeleteTransactionItem> transactionList;
 }
