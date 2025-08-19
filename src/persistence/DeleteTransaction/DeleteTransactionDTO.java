@@ -1,23 +1,21 @@
-package persistence.SaveTransaction;
+package persistence.DeleteTransaction;
 
-import java.time.LocalDate;
+import java.util.Date;
 
-public class SavedTransactionDTO {
-    public String transactionId;
-    public LocalDate transactionDate;
-    public double unitPrice;
-    public double area;
-    public String transactionType;
-    public String landType;
-    public String houseType; 
-    public String address;
+public class DeleteTransactionDTO {
+    private String transactionId;
+    private String transactionType;
+    private Date transactionDate;
+    private double unitPrice;
+    private double area;
+    private String landType;
+    private String houseType;
+    private String address;
 
-
-
-    public SavedTransactionDTO(
+    public DeleteTransactionDTO(
         String transactionId,
         String transactionType,
-        LocalDate transactionDate,
+        Date transactionDate,
         double unitPrice,
         double area,
         String landType,
@@ -34,13 +32,9 @@ public class SavedTransactionDTO {
         this.address = address;
     }
 
-    public SavedTransactionDTO() {
-        //TODO Auto-generated constructor stub
-    }
-
     public String getTransactionId() { return transactionId; }
     public String getTransactionType() { return transactionType; }
-    public LocalDate getTransactionDate() { return transactionDate; }
+    public Date getTransactionDate() { return transactionDate; }
     public double getUnitPrice() { return unitPrice; }
     public double getArea() { return area; }
     public String getLandType() { return landType; }
