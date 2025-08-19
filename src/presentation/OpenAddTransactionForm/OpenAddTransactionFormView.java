@@ -304,6 +304,8 @@ public class OpenAddTransactionFormView extends JFrame implements Subscriber {
                 view.update();
             }
 
+            
+
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Có lỗi khi xử lý dữ liệu: " + ex.getMessage(),
                                         "Lỗi", JOptionPane.ERROR_MESSAGE);

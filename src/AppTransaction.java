@@ -1,15 +1,18 @@
 import java.sql.SQLException;
 import java.text.ParseException;
+
 import business.CalculateLandAverage.CalculateLandAverageUsecase;
 import business.OpenEditTransactionForm.OpenEditTransactionFormUseCase;
 import business.SaveEditTransaction.SaveEditTransactionUseCase;
 import business.SearchTransaction.SearchTransactionUseCase;
 import business.TransactionListView.TransactionListViewUseCase;
+import business.DeleteTransaction.DeleteTransactionUseCase; 
 import persistence.CalculateAmountAverage.CalculateLandAverageDAO;
 import persistence.OpenEditTransactionForm.OpenEditTransactionFormDAO;
 import persistence.SaveEditTransaction.SaveEditTransactionDAO;
 import persistence.SearchTransaction.SearchTransactionDAO;
 import persistence.TransactionListView.TransactionListViewDAO;
+import persistence.DeleteTransaction.DeleteTransactionDAO; 
 import presentation.CalculateLandAverage.CalculateLandAverageController;
 import presentation.CalculateLandAverage.CalculateLandAverageModel;
 import presentation.CalculateLandAverage.CalculateLandAverageView;
@@ -23,6 +26,10 @@ import presentation.SaveEditTransaction.SaveEditTransactionController;
 import presentation.SaveEditTransaction.SaveEditTransactionModel;
 import presentation.SearchTransaction.SearchTransactionController;
 import presentation.SearchTransaction.SearchTransactionModel;
+import presentation.DeleteTransaction.DeleteTransactionController; 
+import presentation.DeleteTransaction.DeleteTransactionModel; 
+
+
 
 public class AppTransaction {
     public static void main(String[] args) {
@@ -42,6 +49,7 @@ public class AppTransaction {
         OpenEditTransactionFormUseCase editFormUseCase = null;
         editFormUI.setModel(editFormModel);
 
+        
         /* ***** RELATIVE TO SAVE EDIT ***** */
         SaveEditTransactionDAO saveEditDAO = null;
         SaveEditTransactionUseCase saveEditUseCase = null;
@@ -62,7 +70,8 @@ public class AppTransaction {
         CalculateLandAverageUsecase averageUsecase = null;
         CalculateLandAverageController averageController = null;
 
-        try {   
+   
+        try {
             /* ***** RELATIVE TO LISTVIEW ***** */
             transactionListViewDAO = new TransactionListViewDAO();
             listViewUseCase = new TransactionListViewUseCase(transactionListViewDAO);
@@ -89,14 +98,25 @@ public class AppTransaction {
             searchUseCase = new SearchTransactionUseCase(searchDAO);
             searchController = new SearchTransactionController(searchModel, searchUseCase);
             mainView.setSearchController(searchController);
-            mainView.setSearchModel(searchModel); // Add this to subscribe to SearchTransactionModel
+            mainView.setSearchModel(searchModel);
 
             /* ***** RELATIVE TO AVERAGE ***** */
             averageDAO = new CalculateLandAverageDAO();
             averageUsecase = new CalculateLandAverageUsecase(averageDAO);
             averageController = new CalculateLandAverageController(averageUsecase, averageModel);
             mainView.setAverageController(averageController);
-            
+
+        
+            /* ***** RELATIVE TO DELETE ***** */
+            DeleteTransactionDAO deleteDAO = new DeleteTransactionDAO();
+            DeleteTransactionUseCase deleteUseCase = new DeleteTransactionUseCase(deleteDAO);
+            DeleteTransactionModel deleteModel = new DeleteTransactionModel();
+            // DeleteTransactionController deleteController = new DeleteTransactionController(deleteModel, deleteUseCase);
+            DeleteTransactionController deleteController = new DeleteTransactionController(deleteModel, deleteUseCase,listViewController);
+
+            mainView.setDeleteController(deleteController);
+            mainView.setDeleteModel(deleteModel);
+
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         } catch (ParseException e) {
