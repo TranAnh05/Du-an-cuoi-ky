@@ -67,6 +67,7 @@ public class AppTransaction {
             transactionListViewDAO = new TransactionListViewDAO();
             listViewUseCase = new TransactionListViewUseCase(transactionListViewDAO);
             listViewController = new TransactionListViewController(viewModel, listViewUseCase);
+
             listViewController.execute();
             mainView.setVisible(true);
 
@@ -100,6 +101,7 @@ public class AppTransaction {
             e.printStackTrace();
         } catch (ParseException e) {
             e.printStackTrace();
+            
         }
     }
 }

@@ -14,7 +14,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.Date;
+
 
 import presentation.Subscriber;
 import presentation.TransactionListView.TransactionListViewController;
@@ -42,6 +42,7 @@ public class OpenAddTransactionFormView extends JFrame implements Subscriber {
 
     // Model reference
     private OpenAddTransactionFormModel model;
+    // Listener
 
     public OpenAddTransactionFormView() {
         initializeComponents();
@@ -291,6 +292,16 @@ public class OpenAddTransactionFormView extends JFrame implements Subscriber {
             }
             else{
                 JOptionPane.showMessageDialog(this, "Giao dịch đã được lưu thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+
+                // Cập nhật lại View một cách thủ công
+                TransactionListViewDAO dao = new TransactionListViewDAO();
+                TransactionListViewUseCase usecase = new TransactionListViewUseCase(dao);
+                TransactionViewModel model = new TransactionViewModel();
+                TransactionListViewController controller = new TransactionListViewController(model, usecase);
+                TransactionListViewUI view = new TransactionListViewUI();
+                view.setViewModel(model);
+                controller.execute();
+                view.update();
             }
 
         } catch (Exception ex) {
