@@ -239,7 +239,6 @@ public class TransactionListViewUI extends JFrame implements Subscriber {
                 TotalTransactionController totalController = new TotalTransactionController(totalModel, totalUseCase);
 
                 // Gắn nút Calculate với controller
-                openView.bindCalculateButton(totalController, totalModel);
                 // Load dữ liệu loại giao dịch
                 openController.execute();
 
